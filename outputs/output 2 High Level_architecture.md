@@ -1,296 +1,378 @@
-# Entry-Test-Guru: High-Level Technical Architecture
+# EntryTestGuru - High-Level Technical Architecture
 
 ## Features (MVP)
 
-### Authentication & Multi-Device Session Management
-Comprehensive user authentication system supporting Google, Facebook, phone, and email/password authentication with strict 3-device limit enforcement (iPhone and iPad count as separate devices) using Device Info Plus package for device fingerprinting and basic session management with 2-3 minute polling synchronization across platforms.
+### Authentication & User Management
+Comprehensive authentication system supporting anonymous users, social logins, and seamless tier transitions with Firebase Auth integration. Handles user onboarding, exam category selection, tier-based access control, and multi-device management with 3-device limit enforcement across the entire platform.
 
 #### Tech Involved
-* Firebase Auth for authentication services
-* FastAPI JWT token management service
-* Firebase Firestore for session tracking
-* Device Info Plus Flutter package for device fingerprinting
-* Firebase Cloud Messaging for session invalidation notifications
+* Firebase Auth (Google/Facebook/Phone/Email)
+* Flutter device_info_plus package for device fingerprinting
+* Flutter Riverpod for state management
+* FastAPI user management service with device tracking
+* Cloud Firestore for user profiles, preferences, and device registry
+* JWT token management for API authentication with device validation
+* Real-time notifications via Firebase Cloud Messaging for device management
 
 #### Main Requirements
-* Device fingerprinting must uniquely identify each platform using Device Info Plus package (iPhone and iPad count as separate devices)
-* Session invalidation must propagate to all active devices through polling every 2-3 minutes
-* Anonymous user sessions must seamlessly convert to authenticated sessions with data preservation
-* Basic session management with polling synchronization, no real-time connections for session management
-* Automatic session cleanup for inactive devices after 30 days
-* Sprint Exams and Simulated Real Exams are device-locked once started
+* Anonymous user session tracking with device-specific usage limits (no cross-device sync)
+* Seamless upgrade path from anonymous → free → paid tiers
+* Real-time sync of user tier limitations and usage statistics for registered users only (free/paid)
+* Secure token refresh and validation across all API endpoints
+* Support for multiple authentication providers with unified user experience
+* 3-device limit enforcement with device fingerprinting and management for registered users only
+* Interactive device management interface showing registered devices with removal capabilities (free/paid users only)
+* 4th device login flow: block access, notify existing devices, require device removal before allowing new device (registered users only)
+* Real-time device status updates across all active sessions for registered users
+* Device metadata display with user-customizable device names, automatic device type detection, browser session tracking, last active timestamps, and registration dates (registered users only)
+* Anonymous users: device-specific usage limits with no cross-device synchronization or session management
 
-### Question Bank Management System
-Scalable question delivery system with CSV bulk import, admin interface for content management, and intelligent question selection based on difficulty progression and user performance using PostgreSQL with full-text search capabilities.
+### Question Bank & Content Management System
+Centralized question repository serving 10,000+ MCQs with advanced filtering, ARDE probability tagging, and comprehensive content versioning. Supports batch content updates with approval workflows and real-time question delivery optimized for mobile consumption.
 
 #### Tech Involved
-* FastAPI microservice for question CRUD operations
-* Firebase Cloud Storage for image/video assets
-* PostgreSQL for structured question data with full-text search capabilities
-* Pandas for CSV processing and validation
-* Firebase Admin SDK for batch operations
+* Cloud Firestore with composite indexing for complex queries
+* Firebase Storage for images and video content
+* FastAPI content management service with async operations
+* Redis caching layer for frequently accessed questions
+* Content delivery via Firebase CDN
 
 #### Main Requirements
-* CSV import must validate question format, detect duplicates, and handle malformed data gracefully
-* Question images must be automatically optimized for mobile (WebP) and desktop (multiple resolutions)
-* Admin interface must support bulk editing, question preview, and approval workflows
-* Question selection algorithm must balance difficulty progression with weak topic reinforcement
-* Content delivery must be cached at CDN level with 24-hour TTL for performance
-* PostgreSQL full-text search for advanced question filtering and content discovery
+* Millisecond-precision tracking of question interactions and timing data
+* Complex filtering by subject, difficulty, ARDE probability, and user performance history
+* Batch content creation workflow with review/approval pipeline
+* Question variation support with dynamic variable substitution
+* Efficient content caching strategy supporting 100K concurrent users
+* Version control for questions with rollback capabilities
 
-### Adaptive Sprint Examination System
-Timed practice sessions with configurable question counts, client-side timer precision with millisecond accuracy, and seamless integration with analytics for difficulty adjustment and detailed timing analysis.
+### Practice Mode & Learning Engine
+Interactive practice system with immediate feedback, attempt tracking, and intelligent question selection based on user performance patterns. Integrates with analytics engine for precision learning insights and supports tier-based explanation access controls.
 
 #### Tech Involved
-* FastAPI service for sprint session management
-* Firebase Firestore for sprint session persistence
-* React-like state management in Flutter using Riverpod
-* Client-side timer with millisecond precision using Flutter's Stopwatch
-* Firebase Cloud Functions for sprint result processing
+* FastAPI practice session service with WebSocket support
+* Cloud Firestore real-time listeners for live progress tracking
+* Redis for session state management and attempt counting
+* Flutter timer widgets with millisecond precision
+* Riverpod for reactive state management of practice sessions
 
 #### Main Requirements
-* Timer must maintain millisecond precision using client-side mechanisms with backup validation
-* Sprint sessions must be resumable with exact time remaining and question state preservation on the same device
-* Ad display timing must be excluded from sprint timers through precise timestamp tracking
-* Sprint results must trigger analytics updates within 2-3 minutes of completion
-* Sprint sessions are device-locked once started to maintain session integrity
-* Individual question response times tracked with millisecond precision for advanced analytics
+* Millisecond-level timing precision for each question attempt
+* Real-time enforcement of tier-based daily limits (20/50/unlimited MCQs)
+* Anonymous users: device-specific limit enforcement with no cross-device synchronization
+* Registered users: cross-device limit synchronization and session continuity
+* Support for up to 3 attempts per question with state persistence
+* Integration with explanation service for tier-based access control
+* Bookmark functionality with cross-device synchronization for registered users only
+* Offline capability with automatic sync on connectivity restoration for registered users
 
-### Real-Time Analytics & Performance Tracking
-Comprehensive user performance analytics with regression detection, peer comparisons, timing analytics, and personalized insights generation for adaptive learning recommendations with 2-3 minute update cycles.
+### Sprint Exams & Simulated Real Exams
+Comprehensive exam simulation engine delivering timed assessments with configurable parameters and realistic exam conditions. Provides detailed performance analytics and supports both custom sprint configurations and standardized real exam replicas.
 
 #### Tech Involved
-* Firebase Analytics for user behavior tracking
-* FastAPI analytics microservice with background job processing
-* PostgreSQL for historical performance data with time-series optimization
-* Firebase Cloud Functions for analytics processing
-* Chart.js integration in Flutter web for data visualization
-* Celery with Redis for asynchronous analytics processing (removed, using Firebase Cloud Functions only)
+* FastAPI exam orchestration service with precise timing controls
+* Cloud Firestore for exam configuration and results storage
+* WebSocket connections for real-time exam state synchronization
+* Background Cloud Functions for automated grading and analytics
+* Redis for exam session state management
 
 #### Main Requirements
-* Performance regression detection must analyze rolling 30-day windows with statistical significance testing
-* Peer comparison calculations must be privacy-preserving with anonymized data aggregation
-* Analytics updates must complete within 2-3 minutes of sprint completion
-* Historical data must be efficiently queryable for trend analysis over 6-month periods
-* Millisecond-precise timing analytics for detailed performance insights and speed improvement tracking
-* Analytics dashboards update through polling mechanism aligned with session synchronization
+* Precise timer implementation with pause/resume capabilities for break intervals
+* Configurable question selection algorithms based on difficulty and ARDE probability
+* Real-time exam state persistence to handle connectivity interruptions
+* Comprehensive scorecard generation with detailed performance breakdowns
+* Integration with analytics engine for historical trend analysis
+* Tier-based exam access controls (1/4/unlimited for anonymous/free/paid)
 
-### AI-Powered Coaching & Explanation System
-Intelligent tutoring system combining pre-written expert explanations with AI-powered follow-up conversations using external LLM APIs for personalized learning support.
+### AI-Powered Tutoring & Explanation System
+Intelligent tutoring system providing contextual explanations and follow-up discussions using external LLM APIs. Implements fair usage policies with tier-based access controls and conversation context management for enhanced learning experiences.
 
 #### Tech Involved
-* FastAPI service with async LLM API integration (OpenAI, Anthropic, Gemini)
-* Firebase Firestore for conversation history and explanation caching
-* Content management system for expert explanations with rich media support
-* Rate limiting and cost management for LLM API calls
-* Firebase Cloud Storage for video explanations with adaptive streaming
+* FastAPI AI orchestration service with multiple LLM provider integrations
+* OpenAI API, Anthropic Claude, Google Gemini API adapters
+* Cloud Firestore for conversation history and context storage
+* Rate limiting and quota management via Redis
+* Background jobs for explanation generation and caching
 
 #### Main Requirements
-* Expert explanations must support rich media (images, equations, videos) with cross-platform rendering
-* AI conversations must maintain context across multiple follow-up questions within sessions
-* LLM responses must be cached intelligently to reduce API costs while maintaining personalization
-* Explanation delivery must adapt to device capabilities (full video on desktop, compressed on mobile)
-* Content versioning must support A/B testing of explanation effectiveness
+* Integration with multiple LLM providers (OpenAI, Anthropic, Gemini, Mistral)
+* Tier-based explanation access control (2/4/unlimited daily explanations)
+* Context-aware conversation management for follow-up questions
+* Fair usage policy implementation with intelligent throttling
+* Explanation caching strategy to optimize API costs and response times
+* Quality filtering and content moderation for generated responses
 
-### Social Accountability & Peer Monitoring
-Consensual performance sharing system with Firebase Cloud Messaging notifications, peer comparisons, and social encouragement features to maintain study motivation and healthy competition.
+### Analytics & Performance Tracking Engine
+Comprehensive analytics platform capturing millisecond-precision user interactions, learning patterns, and performance metrics. Provides both real-time insights and historical trend analysis with specialized ARDE probability performance tracking.
 
 #### Tech Involved
+* Separate Cloud Firestore database for analytics data isolation
+* BigQuery for complex analytical queries and data warehousing
+* Google Analytics integration for app usage insights
+* FastAPI analytics service with real-time data processing
+* Background Cloud Functions for metric aggregation and computation
+
+#### Main Requirements
+* Millisecond-precision timing data capture for all user interactions
+* Separate database architecture isolating learning analytics from operational data
+* Real-time performance metric computation and caching
+* Historical trend analysis with data retention policies
+* Export functionality for external analysis tools
+* ARDE probability performance correlation and strategic recommendations
+* Business intelligence metrics for conversion funnel optimization
+
+### Subscription Management & Monetization
+Complete subscription lifecycle management integrated with Paddle.com for payment processing and Google AdSense for free tier monetization. Handles tier transitions, usage enforcement, and billing automation with comprehensive admin controls.
+
+#### Tech Involved
+* Paddle.com API integration for subscription management
+* Google AdSense integration with Flutter ad widgets
+* FastAPI subscription service with webhook handling
+* Cloud Functions for automated billing and tier management
+* Cloud Firestore for subscription state and usage tracking
+
+#### Main Requirements
+* Seamless integration with Paddle.com for global payment processing
+* Real-time subscription status synchronization via webhooks
+* Tier-based feature access enforcement across all system components
+* Advertisement serving with timing exclusion from performance analytics
+* Automated billing cycle management with failure handling
+* Admin dashboard for subscription analytics and customer support
+
+### Social Features & Community Platform
+Community-driven learning platform with leaderboards, study groups, and competitive challenges. Supports real-time progress sharing, comparative analytics, and social accountability features to enhance user engagement and retention.
+
+#### Tech Involved
+* Cloud Firestore with real-time listeners for social data
+* FastAPI social service with notification orchestration
 * Firebase Cloud Messaging for push notifications
-* Firebase Firestore with security rules for privacy-controlled data sharing
-* Flutter local notifications for cross-platform notification handling
-* Privacy consent management system with granular permissions
+* Redis for leaderboard computation and caching
+* Background jobs for challenge processing and reward distribution
 
 #### Main Requirements
-* Peer monitoring invitations must require explicit mutual consent with easy revocation
-* Notifications delivered through Firebase Cloud Messaging as close to real-time as possible
-* Performance sharing must be granular (overall progress vs detailed analytics) with user control
-* Social features must comply with privacy regulations and support data deletion requests
-* Notification frequency must be intelligently throttled to prevent spam while maintaining engagement
+* Real-time leaderboard updates with efficient ranking algorithms
+* Study group management with privacy controls and member permissions
+* Comparative analytics showing individual vs. group performance metrics
+* Push notification system for social engagement and milestone celebrations
+* Challenge creation and participation tracking with ARDE probability themes
+* Social sharing integration with external platforms
 
-### Subscription & Payment Integration
-Comprehensive monetization system with Paddle.com payment processing and subscription management, and integrated advertising system with precise timing controls.
+### Device Management & Account Settings
+Comprehensive device management system for registered users (free/paid) allowing them to view, monitor, and control their registered devices with real-time status updates and intelligent browser consolidation. Anonymous users operate with device-specific usage limits without cross-device synchronization. Provides intuitive interface for device removal when registered users attempt to login on additional devices beyond the 3-device limit.
 
 #### Tech Involved
-* Paddle.com SDK for payment processing and subscription lifecycle management
-* FastAPI payment service with idempotent transaction handling
-* Firebase Security Rules for subscription status enforcement
-* Google AdMob integration with Flutter ad plugins
-* Webhook verification and retry logic for payment events
+* Flutter device management UI components with real-time updates and browser session displays
+* Flutter web platform channels and dart:html for web machine-level identification
+* Cloud Firestore device registry with real-time synchronization for cross-device management visibility
+* Cloud Firestore real-time listeners for device status synchronization across browser sessions
+* FastAPI device management service with CRUD operations and browser session tracking
+* Firebase Cloud Messaging for cross-device notifications and consolidation alerts
+* Device metadata collection and display with browser session details (Chrome, Firefox, Safari active sessions)
 
 #### Main Requirements
-* Payment processing must handle failed transactions with automatic retry and user notification
-* Subscription status must propagate to all user devices within 2-3 minutes of payment confirmation through polling
-* Ad display must be precisely timed to exclude ad loading from practice session timers
-* Subscription upgrades/downgrades must be handled seamlessly with prorated billing
-* Payment webhook failures must trigger automatic reconciliation processes
+* Device management interface for registered users only (free/paid) showing all registered devices with browser session breakdowns
+* Anonymous users: device-specific usage tracking with local session storage only (no cross-device features)
+* Automated server-side device consolidation using weighted fingerprint similarity algorithm (85% threshold) for registered users
+* Interactive device removal functionality with immediate effect across all browser sessions (registered users only)
+* 4th device login workflow for registered users: block access, display removal interface with browser session details, require action before proceeding
+* Push notifications to existing devices when new device attempts login (registered users only)
+* Device status monitoring (online/offline, last active timestamp) with per-browser session granularity for registered users
+* Device nickname editing functionality for registered users allowing personalized device names (e.g., "My Work Laptop", "Home Desktop")
+* Browser session tracking showing active browsers per desktop device for registered users (Chrome, Firefox, Safari, etc.)
+* Anonymous users: simplified tier limit enforcement tied to current device only with no device management features
+* Immediate session termination on device removal with graceful user experience across all browser sessions (registered users only)
+* Device management accessible from account settings on all platforms with consolidated desktop view (registered users only)
 
-### Simulated Exam Environment
-High-fidelity exam simulation system replicating actual test conditions with precise timing, authentic question structures, millisecond-accurate response tracking, and comprehensive performance analysis matching real exam formats.
+### Content Quality Assurance & Support System
+Quality management system for user-generated feedback, content corrections, and customer support workflows. Implements automated issue tracking with admin review processes and maintains content integrity across the platform.
 
 #### Tech Involved
-* FastAPI exam orchestration service
-* Firebase Firestore for exam state persistence and recovery
-* Flutter full-screen mode with platform-specific kiosk implementations
-* Background services for preventing interruption during exam mode
-* Client-side timer with millisecond precision for accurate timing analytics
-* Firebase Cloud Functions for exam scoring and analysis generation
+* FastAPI support ticket management service
+* Cloud Firestore for issue tracking and resolution workflows
+* Email integration for customer support communications
+* Admin dashboard components for content review and user management
+* Automated content flagging and quality scoring algorithms
 
 #### Main Requirements
-* Exam environment must prevent platform-specific interruptions (notifications, calls, system dialogs)
-* Timing precision must be maintained with client-side backup timers achieving millisecond accuracy
-* Exam sessions are device-locked once started and cannot be transferred to other devices
-* Question delivery must pre-load next questions to eliminate loading delays during timed sections
-* Exam results must generate detailed performance breakdowns with millisecond-precise timing analytics
-* Individual question response times tracked for comprehensive speed analysis
+* In-app issue reporting system with categorization and priority handling
+* Admin review workflow for content corrections and quality control
+* Customer support integration with ticketing system and phone support
+* Automated content quality monitoring with flagging mechanisms
+* User feedback aggregation and analysis for continuous improvement
 
 ## System Diagram
 
 ```mermaid
 graph TB
-    subgraph "Client Applications"
-        MA[Mobile App<br/>Flutter iOS/Android]
-        WA[Web App<br/>Flutter Web]
-    end
+    %% Client Layer
+    FlutterApp[Flutter Mobile App<br/>Riverpod State Management]
+    WebApp[Web Application<br/>Responsive Design]
+    AdminPanel[Admin Panel<br/>Content Management]
+
+    %% API Gateway Layer
+    APIGateway[FastAPI Gateway<br/>Rate Limiting & Auth]
     
-    subgraph "Load Balancer & CDN"
-        LB[Cloud Load Balancer]
-        CDN[Firebase CDN]
-    end
+    %% Microservices Layer
+    AuthService[Authentication Service<br/>Firebase Auth + Device Management]
+    UserService[User Management Service<br/>Profile & Device Registry]
+    ContentService[Content Management Service<br/>Questions & Explanations]
+    PracticeService[Practice Engine Service<br/>Session Management]
+    ExamService[Exam Orchestration Service<br/>Sprint & SRE Management]
+    AnalyticsService[Analytics Engine Service<br/>Performance Tracking]
+    AIService[AI Tutoring Service<br/>LLM Integration]
+    SocialService[Social Platform Service<br/>Groups & Leaderboards]
+    SubscriptionService[Subscription Service<br/>Paddle Integration]
+    NotificationService[Notification Service<br/>FCM & Email]
+    DeviceService[Device Management Service<br/>Multi-Device Control]
+
+    %% Caching Layer
+    Redis[(Redis Cache<br/>Sessions & Performance)]
     
-    subgraph "API Gateway & Authentication"
-        AG[API Gateway<br/>Cloud Endpoints]
-        AUTH[Firebase Auth Service]
-        JWT[JWT Token Service<br/>FastAPI]
-    end
+    %% Database Layer
+    Firestore[(Cloud Firestore<br/>Primary Database)]
+    AnalyticsDB[(Analytics Database<br/>Separate Instance)]
+    BigQuery[(BigQuery<br/>Data Warehouse)]
     
-    subgraph "Core Microservices"
-        USER[User Management<br/>FastAPI]
-        QUEST[Question Bank Service<br/>FastAPI]
-        SPRINT[Sprint Exam Service<br/>FastAPI]
-        ANA[Analytics Service<br/>FastAPI]
-        AI[AI Coaching Service<br/>FastAPI]
-        SOCIAL[Social Features<br/>FastAPI]
-        PAY[Payment Service<br/>FastAPI]
-        EXAM[Exam Simulation<br/>FastAPI]
-    end
+    %% Storage Layer
+    FirebaseStorage[(Firebase Storage<br/>Media Content)]
+    CDN[Firebase CDN<br/>Global Distribution]
     
-    subgraph "Notification Services"
-        FCM[Firebase Cloud Messaging]
-        NOTIF[Notification Service<br/>FastAPI]
-    end
-    
-    subgraph "Data Storage"
-        FS[Firebase Firestore<br/>User Data & Sessions]
-        PSQL[PostgreSQL<br/>Question Bank & Analytics<br/>with Full-Text Search]
-        STORAGE[Firebase Cloud Storage<br/>Media Assets]
-        REDIS[Redis Cache<br/>Session & Performance Data]
-    end
-    
-    subgraph "Background Processing"
-        CF[Firebase Cloud Functions<br/>Analytics & Background Jobs]
-        SCHEDULER[Cloud Scheduler<br/>Periodic Tasks]
-    end
-    
-    subgraph "External APIs"
-        OPENAI[OpenAI/Anthropic<br/>LLM APIs]
-        PADDLE[Paddle.com<br/>Payments & Subscriptions]
-        GA[Google Analytics]
-        ADMOB[Google AdMob]
-    end
-    
-    subgraph "Monitoring & DevOps"
-        LOG[Cloud Logging]
-        MON[Cloud Monitoring]
-        ERR[Error Reporting]
-    end
-    
-    %% Client to Load Balancer
-    MA --> LB
-    WA --> LB
-    
-    %% Load Balancer to Services
-    LB --> AG
-    CDN --> MA
-    CDN --> WA
-    
-    %% API Gateway Flow
-    AG --> AUTH
-    AG --> JWT
-    AG --> USER
-    AG --> QUEST
-    AG --> SPRINT
-    AG --> ANA
-    AG --> AI
-    AG --> SOCIAL
-    AG --> PAY
-    AG --> EXAM
-    
-    %% Polling Connections (2-3 minute intervals)
-    MA -.->|Polling Every 2-3min| USER
-    WA -.->|Polling Every 2-3min| USER
-    
-    %% Notification Flow
-    NOTIF --> FCM
-    FCM --> MA
-    SOCIAL --> NOTIF
-    
-    %% Service to Database Connections
-    USER --> FS
-    USER --> REDIS
-    QUEST --> PSQL
-    QUEST --> STORAGE
-    SPRINT --> FS
-    SPRINT --> REDIS
-    ANA --> PSQL
-    ANA --> FS
-    AI --> FS
-    AI --> REDIS
-    SOCIAL --> FS
-    PAY --> FS
-    EXAM --> FS
-    EXAM --> PSQL
+    %% External Services
+    FirebaseAuth[Firebase Auth<br/>Multi-Provider]
+    PaddleAPI[Paddle.com API<br/>Payments]
+    OpenAI[OpenAI API<br/>GPT Models]
+    Anthropic[Anthropic API<br/>Claude Models]
+    Gemini[Google Gemini API<br/>AI Models]
+    GoogleAnalytics[Google Analytics<br/>App Insights]
+    AdSense[Google AdSense<br/>Advertisement]
+    FCM[Firebase Cloud Messaging<br/>Push Notifications]
     
     %% Background Processing
-    CF --> FS
-    CF --> PSQL
-    CF --> REDIS
-    SCHEDULER --> CF
+    CloudFunctions[Cloud Functions<br/>Background Jobs]
     
-    %% External API Connections
-    AI --> OPENAI
-    PAY --> PADDLE
-    ANA --> GA
-    MA --> ADMOB
-    WA --> ADMOB
+    %% Client Connections
+    FlutterApp --> APIGateway
+    WebApp --> APIGateway
+    AdminPanel --> APIGateway
     
-    %% Service Interactions
-    SPRINT --> ANA
-    EXAM --> ANA
-    USER --> SOCIAL
-    ANA --> AI
-    PAY --> USER
+    %% API Gateway Routing
+    APIGateway --> AuthService
+    APIGateway --> UserService
+    APIGateway --> ContentService
+    APIGateway --> PracticeService
+    APIGateway --> ExamService
+    APIGateway --> AnalyticsService
+    APIGateway --> AIService
+    APIGateway --> SocialService
+    APIGateway --> SubscriptionService
+    APIGateway --> NotificationService
+    APIGateway --> DeviceService
     
-    %% Monitoring
-    USER --> LOG
-    QUEST --> MON
-    SPRINT --> ERR
-    ANA --> LOG
-    AI --> MON
-    SOCIAL --> ERR
-    PAY --> LOG
-    EXAM --> MON
+    %% Service Dependencies
+    AuthService --> FirebaseAuth
+    AuthService --> Firestore
+    UserService --> Firestore
+    UserService --> Redis
+    ContentService --> Firestore
+    ContentService --> FirebaseStorage
+    ContentService --> CDN
+    PracticeService --> Firestore
+    PracticeService --> Redis
+    PracticeService --> AnalyticsDB
+    ExamService --> Firestore
+    ExamService --> Redis
+    ExamService --> AnalyticsDB
+    AnalyticsService --> AnalyticsDB
+    AnalyticsService --> BigQuery
+    AnalyticsService --> GoogleAnalytics
+    AIService --> OpenAI
+    AIService --> Anthropic
+    AIService --> Gemini
+    AIService --> Firestore
+    AIService --> Redis
+    SocialService --> Firestore
+    SocialService --> Redis
+    SocialService --> FCM
+    SubscriptionService --> PaddleAPI
+    SubscriptionService --> Firestore
+    NotificationService --> FCM
+    NotificationService --> Firestore
+    DeviceService --> Firestore
+    DeviceService --> FCM
+    DeviceService --> Redis
+    
+    %% Background Processing
+    CloudFunctions --> Firestore
+    CloudFunctions --> AnalyticsDB
+    CloudFunctions --> BigQuery
+    CloudFunctions --> PaddleAPI
+    
+    %% Advertisement Integration
+    FlutterApp --> AdSense
+    WebApp --> AdSense
+    
+    %% Analytics Flow
+    FlutterApp -.-> GoogleAnalytics
+    WebApp -.-> GoogleAnalytics
     
     %% Styling
     classDef client fill:#e1f5fe
     classDef service fill:#f3e5f5
     classDef database fill:#e8f5e8
     classDef external fill:#fff3e0
-    classDef notification fill:#fce4ec
+    classDef cache fill:#fce4ec
     
-    class MA,WA client
-    class USER,QUEST,SPRINT,ANA,AI,SOCIAL,PAY,EXAM service
-    class FS,PSQL,STORAGE,REDIS database
-    class OPENAI,PADDLE,GA,ADMOB external
-    class FCM,NOTIF notification
+    class FlutterApp,WebApp,AdminPanel client
+    class AuthService,UserService,ContentService,PracticeService,ExamService,AnalyticsService,AIService,SocialService,SubscriptionService,NotificationService,DeviceService service
+    class Firestore,AnalyticsDB,BigQuery,FirebaseStorage database
+    class FirebaseAuth,PaddleAPI,OpenAI,Anthropic,Gemini,GoogleAnalytics,AdSense,FCM external
+    class Redis cache
 ```
+
+## Architecture Decisions & Rationale
+
+### Microservices Architecture
+- **Service Isolation**: Each major feature domain is separated into dedicated microservices to enable independent scaling, deployment, and maintenance
+- **Technology Flexibility**: Allows different services to optimize for their specific requirements (e.g., AI service for LLM integration, Analytics service for data processing)
+- **Team Scalability**: Multiple content creators and developers can work on different services without conflicts
+
+### Device Management Strategy
+- **Mobile Devices**: Hardware-based fingerprinting using device_info_plus package for unique, persistent device identification (registered users only)
+- **Web Browsers**: Machine fingerprinting payload stored in Cloud Firestore with automated server-side consolidation logic to treat multiple browsers on same desktop as single device (registered users only)
+- **Anonymous Users**: Device-specific usage limits with local session storage, no cross-device features or device registry
+- **Real-time Synchronization**: All device management operations visible across all user devices via Firestore real-time listeners (registered users only)
+- **Cross-Platform Consistency**: Unified device management experience across mobile apps and web browsers with instant cross-device updates for registered users
+- **Security-First Approach**: Automated fingerprint matching with weighted similarity algorithm (85% threshold) prevents user manipulation of device limits for registered users
+- **Simplified Anonymous Experience**: Basic tier enforcement tied to current device with no device management complexity
+
+### Database Architecture
+- **Primary Database**: Cloud Firestore for real-time capabilities, horizontal scaling, and Firebase ecosystem integration
+- **Analytics Isolation**: Separate Firestore instance for analytics data to prevent performance impact on core application features
+- **Data Warehousing**: BigQuery integration for complex analytical queries and long-term trend analysis
+- **Caching Strategy**: Redis for session management, leaderboards, and frequently accessed data to support 100K concurrent users
+
+### Caching & Performance Strategy
+- **Multi-Layer Caching**: CDN for static content, Redis for dynamic data, and application-level caching for question banks
+- **Question Bank Optimization**: Intelligent pre-loading of questions based on user patterns and ARDE probability preferences
+- **Real-time Sync**: WebSocket connections for exam sessions and live leaderboards with fallback to polling
+
+### Scalability Considerations
+- **Auto-scaling**: Firebase Functions automatically scale during peak exam seasons
+- **Load Distribution**: API Gateway with intelligent routing and rate limiting
+- **Database Sharding**: Composite indexes in Firestore optimized for complex filtering requirements
+- **Regional Optimization**: Single region deployment initially with expansion capability
+
+### Security & Privacy
+- **Authentication**: Firebase Auth with multi-provider support and JWT token validation
+- **Device Management**: 3-device limit enforcement for registered users only with Flutter device fingerprinting for mobile and automated server-side similarity matching for web browsers
+- **Anonymous User Limits**: Device-specific usage tracking with local session storage, no cross-device synchronization or device management features
+- **Cross-Browser Consolidation**: Multiple browsers on same desktop count as single device for registered users using weighted fingerprint similarity algorithm (85% threshold)
+- **Anti-Gaming Measures**: Multiple fingerprint factors (screen, platform, timezone, hardware) with weighted scoring for registered users to prevent device limit circumvention
+- **API Security**: Rate limiting, request validation, and secure API key management
+- **Data Privacy**: Anonymous user tracking without personal data collection, device-specific limits only
+- **Payment Security**: PCI-compliant processing through Paddle.com integration
+
+### Monitoring & Observability
+- **Application Monitoring**: Firebase Crashlytics for error tracking and performance monitoring
+- **Business Analytics**: Google Analytics integration for user behavior insights
+- **Custom Metrics**: Real-time performance dashboards for system health and user engagement
+- **Alert Systems**: Automated monitoring for API response times, error rates, and concurrent user limits

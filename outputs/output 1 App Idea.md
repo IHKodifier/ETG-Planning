@@ -24,9 +24,9 @@ Current solutions are either too generic (standard textbooks) or too expensive (
 - Secondary: International students (GMAT, GRE, SAT)
 
 **User Tiers:**
-- **Anonymous Users**: Trying the platform (20 MCQs + 2 explanations daily, 1 SE, 1 half-length SRE)
-- **Free Users**: 2-week trial with enhanced limits (50 daily MCQs + 4 explanations daily with AI tutoring, 4 SEs, 2 SREs)
-- **Paid Users**: Unlimited access with premium features (unlimited MCQs + explanations + sprint exams + simulated real exams + fair usage based unlimited AI follow-up tutoring for answer explanations)
+- **Anonymous Users**: Trying the platform (20 MCQs + 2 explanations daily, 1 SE, 1 half-length SRE, device-specific limits with no cross-device sync)
+- **Free Users**: 2-week trial with enhanced limits (50 daily MCQs + 4 explanations daily with AI tutoring, 4 SEs, 2 SREs, max 3 devices with cross-device sync)
+- **Paid Users**: Unlimited access with premium features (unlimited MCQs + explanations + sprint exams + simulated real exams + fair usage based unlimited AI follow-up tutoring for answer explanations, max 3 devices with cross-device sync)
 
 ## Unique Selling Points (USP)
 1. **ARDE Intelligence**: Questions tagged with actual exam appearance probability and historical frequency data
@@ -49,6 +49,11 @@ Current solutions are either too generic (standard textbooks) or too expensive (
 - [ ] As a new user, I can select my target exam category (ECAT, MCAT, CCAT, GMAT, GRE, SAT) during onboarding
 - [ ] As a user, I can view my current tier limitations and usage statistics
 - [ ] As an anonymous user, I am gracefully prompted to upgrade when I exhaust my limits
+- [ ] As an anonymous user, my usage limits are tied to my current device only with no cross-device sync
+- [ ] As a free/paid user, I can login on up to 3 devices maximum (tracked via device fingerprinting)
+- [ ] As a free/paid user, my progress and session data syncs across all my connected devices
+- [ ] As a user, I can view and manage my connected devices in account settings
+- [ ] As a user, I receive notifications when attempting to login on a 4th device with options to replace an existing device
 
 ### Question Bank & Content Management
 - [ ] As a user, I can access 10,000+ MCQs across all supported exam categories
@@ -214,7 +219,8 @@ Current solutions are either too generic (standard textbooks) or too expensive (
 - [ ] **Load Testing**: Support for concurrent users during peak exam seasons
 
 #### Security
-- [ ] **Anonymous User Tracking**: Session-based limits without compromising privacy
+- [ ] **Device Management**: 3-device limit per account tracked via Flutter device_info_plus package fingerprinting for registered users only
+- [ ] **Anonymous User Tracking**: Device-specific session limits without cross-device sync or compromising privacy
 - [ ] **Payment Security**: PCI-compliant payment processing through Paddle.com
 - [ ] **API Security**: Rate limiting and authentication for all backend endpoints
 
@@ -230,7 +236,8 @@ Current solutions are either too generic (standard textbooks) or too expensive (
 - **Framework**: Flutter with Dart
 - **State Management**: Riverpod for reactive state management
 - **Navigation**: Flutter's built-in routing with deep linking support
-- **Local Storage**: Hive for offline question caching and user preferences
+- **Local Storage**: Hive for limited offline question caching and user preferences
+- **Device Identification**: device_info_plus package for device fingerprinting and multi-device management
 
 ### Backend Stack
 - **API Framework**: Python FastAPI for high-performance REST APIs

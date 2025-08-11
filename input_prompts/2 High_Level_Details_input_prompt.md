@@ -1,14 +1,15 @@
 
-## Summary of 
 
-        # 2 High Level Details TEMPLATE PROMPT 
+
+ # 2 High Level Details TEMPLATE PROMPT 
 
 
 
 
 <!-- #region role_definition -->
-${ROLE_DEFINITION}="You are Dr. IHK, a Senior Staff Software Engineer with over 20 years of experience at Google and Amazon, where you've led the design and implementation of highly scalable, fault-tolerant backend systems serving billions of requests daily. Your expertise lies in distributed systems architecture, system based on Micro-services architecture, performance optimizations, and ensuring operational excellence in production environments.
-Your job role  is to analyze the following technical problem, offering insights from the perspective of a seasoned FAANG principal engineer. Prioritize solutions that are robust, maintainable, and scalable. Consider potential pitfalls, edge cases, and the implications for long-term system health. Provide your analysis as if you were guiding a team through a complex technical decision.";
+${ROLE_DEFINITION}="  
+You are Dr. IHK, a Senior Staff Software Engineer with over 20 years of experience at Google and Amazon, where you've led the design and implementation of highly scalable, fault-tolerant backend systems serving billions of requests daily. Your expertise lies in distributed systems architecture, system based on Micro-services architecture, performance optimizations, and ensuring operational excellence in production environments.
+Your job role  is to analyze the following technical problem, offering insights from the perspective of a seasoned FAANG principal engineer. Prioritize solutions that are robust, maintainable, support features additions  and scalable. Consider potential pitfalls, edge cases, and the implications for long-term system health. Provide your analysis as if you were guiding a team through a complex technical decision.";
 <!--#endregion-->
 
 <!-- #region task -->
@@ -36,7 +37,7 @@ ${TECH_STACK} = "
 * The authentication will use **Firbase Auth**
 * front-end will only and only talk to API endpoints for the app
 * I will use Google Analytics  For analytics in my application
-* I will use Stripe for payments in my application
+
 * subscriptions will be managed by paddle.com
 
 "
@@ -44,261 +45,277 @@ ${TECH_STACK} = "
 
 <!-- #region app_details_and features_list -->
 ${app_details_and_features_list} = "
-# Entry-Test-Guru: Complete Project Specification
+# EntryTestGuru - Project Specification
 
 ## Elevator Pitch
-Entry-Test-Guru is a comprehensive exam preparation app that transforms competitive test preparation through intelligent analytics, adaptive learning, and personalized coaching. Students preparing for SAT, GRE, GMAT, TOEFL, and Pakistani engineering/medical entrance exams get unlimited practice with AI-driven performance insights, expert explanations, and structured study plans that adapt to their exam timeline.
+EntryTestGuru is a comprehensive exam preparation platform that helps students master critical admission tests (ECAT, MCAT, CCAT, GMAT, GRE, SAT) through intelligent practice, precise analytics, and adaptive learning. With over 10,000+ MCQs, real-time performance tracking, ARDE probability insights, and personalized study plans, we transform high-stakes exam preparation from stressful cramming into confident, data-driven success.
 
 ## Problem Statement
-Students preparing for competitive entrance exams face multiple critical challenges:
-- **High-stakes pressure**: Most exams are once-yearly with no retake options within the academic cycle
-- **Massive question banks**: 10,000+ questions across multiple subjects make comprehensive preparation overwhelming  
-- **Lack of personalized feedback**: Generic study materials don't address individual weaknesses
-- **Time management struggles**: Students can't effectively simulate real exam conditions or manage preparation timelines
-- **Inconsistent performance tracking**: No systematic way to identify knowledge gaps or track improvement over time
-- **Limited adaptive learning**: Static study plans don't adjust based on performance or remaining time until exam
+Students preparing for once-yearly admission exams face three critical challenges:
+1. **High Stakes, No Second Chances**: Most exams (ECAT, MCAT, CCAT) offer only one attempt per year with no retakes
+2. **Lack of Targeted Practice**: Generic study materials don't identify individual weaknesses or optimize time allocation based on actual exam patterns
+3. **Poor Time Management Under Pressure**: Students struggle with time constraints and exam anxiety without realistic practice environments and strategic question prioritization
+
+Current solutions are either too generic (standard textbooks) or too expensive (private tutoring), leaving a gap for intelligent, affordable, personalized preparation that leverages real exam data.
 
 ## Target Audience
 
 ### Target Audience Segmentation
 
 **Primary Segments:**
-- **High School Graduates (17-19 years)**: Preparing for undergraduate engineering/medical college entrance exams in Pakistan
-- **College Graduates (21-25 years)**: Preparing for international standardized tests (SAT, GRE, GMAT, TOEFL)
-- **Young Students (13-15 years)**: Preparing for Cadet College entrance examinations
-- **Graduate Students (22-26 years)**: Preparing for civil service competitive exams
+- **High School Graduates (16-18 years)**: Preparing for ECAT, MCAT, GMAT, GRE, SAT
+- **Middle School Students (12-14 years)**: Preparing for CCAT (7th-8th graders)
 
-**User Personas:**
-- **The Determined Achiever**: High-performing student seeking systematic preparation with detailed analytics
-- **The Time-Crunched Learner**: Student with limited study time needing efficient, targeted practice
-- **The Anxious Test-Taker**: Student requiring confidence-building through progressive difficulty and expert coaching
+**Geographic Focus:**
+- Primary: Pakistan (ECAT, MCAT, CCAT)
+- Secondary: International students (GMAT, GRE, SAT)
+
+**User Tiers:**
+- **Anonymous Users**: Trying the platform (20 MCQs + 2 explanations daily, 1 SE, 1 half-length SRE)
+- **Free Users**: 2-week trial with enhanced limits (50 daily MCQs + 4 explanations daily with AI tutoring, 4 SEs, 2 SREs)
+- **Paid Users**: Unlimited access with premium features (unlimited MCQs + explanations + sprint exams + simulated real exams + fair usage based unlimited AI follow-up tutoring for answer explanations)
 
 ## Unique Selling Points (USP)
-
-1. **Adaptive Difficulty Progression**: Five-level difficulty system from "getting feet wet" to expert level
-2. **Intelligent Time Compression**: Dynamic study plans that adapt to remaining exam preparation time
-3. **Performance Regression Detection**: Advanced analytics identifying topics where performance has declined
-4. **Expert-AI Hybrid Coaching**: Pre-written expert explanations combined with AI-powered follow-up Q&A
-5. **Flexible Sprint System**: Customizable practice sessions (10-50 questions) based on available time
-6. **Peer Performance Tracking**: Social accountability through consensual performance monitoring
-7. **Exam-Specific Simulation**: Authentic recreation of actual exam conditions and structures
+1. **ARDE Intelligence**: Questions tagged with actual exam appearance probability and historical frequency data
+2. **Precision Analytics**: Track time-per-question, attempt patterns, and topic mastery with surgical precision
+3. **Adaptive Question Variations**: Dynamic question variants that test true understanding, not memorization
+4. **Realistic Exam Simulation**: Perfect replicas of actual exam conditions, timing, and marking schemes
+5. **Strategic Study Plans**: Time-compressed curricula that prioritize high-probability questions based on ARDE dates
+6. **Expert-Created Content**: 10,000+ questions with step-by-step explanations, video tutorials, and ARDE probability insights
+7. **Affordable Access**: Comprehensive preparation at a fraction of private tutoring costs
 
 ## Target Platforms
-- **Primary**: Cross-platform deployment across all major platforms
-  - **Mobile**: iOS and Android via Flutter for on-the-go preparation
-  - **Desktop Web**: Full-featured web application for comprehensive study sessions
-  - **Responsive Design**: Seamless experience across phone, tablet, and desktop screens
-- **Architecture**: Single Flutter codebase supporting mobile, web, and desktop with platform-specific optimizations
+- **Primary**: Flutter mobile app (iOS/Android)
+- **Secondary**: Web application (responsive design)
+- **Backend**: Python FastAPI with Firebase infrastructure
 
 ## Features List
 
-### Authentication & User Management
-- [ ] As a new user, I can sign up using Google, Facebook, or phone authentication across all platforms
-- [ ] As a visitor, I can continue as an anonymous user with limited features on mobile, tablet, or desktop
-- [ ] As a user, I can log in across maximum 3 devices (any combination of mobile, tablet, desktop) with automatic sync
-- [ ] As a user, I can seamlessly switch between mobile and desktop while maintaining my session and progress
-- [ ] As a user, I can manage my subscription and billing through integrated Paddle.com interface on any platform
+### Authentication & Onboarding
+- [ ] As a user, I can continue as anonymous, sign up with Google/Facebook/Phone/Email, or login to existing account
+- [ ] As a new user, I can select my target exam category (ECAT, MCAT, CCAT, GMAT, GRE, SAT) during onboarding
+- [ ] As a user, I can view my current tier limitations and usage statistics
+- [ ] As an anonymous user, I am gracefully prompted to upgrade when I exhaust my limits
 
-### Onboarding & Exam Selection
-- [ ] As a new user, I must select my exam category (Engineering/Medical/GRE/GMAT/TOEFL/SAT/Cadet College)
-- [ ] As a user, I can select specific topics where I need focused practice
-- [ ] As a user, I can set my actual exam date to enable time-compressed study plans
-- [ ] As a user, I can choose my current skill level for progressive difficulty matching
+### Question Bank & Content Management
+- [ ] As a user, I can access 10,000+ MCQs across all supported exam categories
+- [ ] As a content creator, I can add question variations with different variable values and arrangements
+- [ ] As a user, I can view detailed explanations (text/video) for each question after attempting (subject to tier limits)
+- [ ] As a user, I can access AI-powered follow-up tutoring for conceptual discussions (subject to explanation limits)
+- [ ] As a system, I track question popularity to prioritize variation creation
+- [ ] As a system, I enforce daily explanation limits: 2 for anonymous, 4 for free, unlimited for paid users
+- [ ] As a user, I can see ARDE probability indicators for each question to understand exam relevance
+- [ ] As a user, I can view historical frequency data showing how often questions appeared on real exams
 
-### Question Practice System
-- [ ] As an anonymous user, I can practice 20 MCQs with expert coaching
-- [ ] As a free user, I can practice 20 daily MCQs for 2 weeks after signup
-- [ ] As a paid user, I can access unlimited daily MCQ practice
-- [ ] As a user, I can select difficulty levels (5 progressive levels from beginner to expert)
-- [ ] As a user, I can filter questions by subject, topic, and difficulty
-- [ ] As a user, I can report questions for reconsideration if I believe my answer was correct
+### Practice Mode
+- [ ] As a user, I can practice MCQs by subject, topic, difficulty level, ARDE probability, and performance history
+- [ ] As a user practicing, I get immediate feedback and up to 3 attempts per question
+- [ ] As a user, I can view step-by-step solutions and video explanations after each attempt (subject to tier limits)
+- [ ] As a user, I can access AI-powered follow-up tutoring for conceptual discussions (subject to explanation limits)
+- [ ] As a user, I can bookmark difficult questions for later review
+- [ ] As a user, I can filter questions by "High ARDE Probability" or "Frequently Asked on Real Exams"
+- [ ] As a user, I can prioritize practice sessions based on question importance for actual exams
+- [ ] As an anonymous user, I'm limited to 20 daily practice MCQs and 2 answer explanations per day
+- [ ] As a free user, I get 50 daily practice MCQs and 4 answer explanations per day for 2 weeks
+- [ ] As a paid user, I have unlimited daily practice access and unlimited answer explanations
 
-### Sprint Examination System
-- [ ] As a user, I can select sprint duration (10, 20, 25, 30, 35, 40, 45, or 50 questions)
-- [ ] As an anonymous user, I can take 1 sprint exam before requiring signup
-- [ ] As a free user, I can take 3 sprint exams weekly for 2 weeks
-- [ ] As a paid user, I can take unlimited sprint exams
-- [ ] As a user, sprint timing excludes ad loading/display time
-- [ ] As a user, I receive immediate performance feedback after each sprint
+### Sprint Exams (SE)
+- [ ] As a user, I can create custom sprint exams with 5-50 questions and configurable time limits
+- [ ] As a user, I can select specific topics, difficulty distributions, and ARDE probability levels for my sprint
+- [ ] As a user taking a sprint, I don't see answer feedback until completion
+- [ ] As a user, I receive detailed scorecards and analytics after sprint completion
+- [ ] As a system, I track precise timing for each question attempt during sprints
+- [ ] As a user, I can create "High-Probability" sprints focusing on questions most likely to appear on ARDE
+- [ ] As an anonymous user, I'm limited to 1 sprint exam before requiring signup
+- [ ] As a free user, I get 4 sprint exams total during my 2-week trial
+- [ ] As a paid user, I have unlimited sprint exam access
 
-### Simulated Real Exams
-- [ ] As an anonymous user, I can take one half-length simulated exam
-- [ ] As a free user, I cannot access full simulated exams (upgrade required)
-- [ ] As a paid user, I can take unlimited full-length simulated exams
-- [ ] As a user taking SAT/GRE/GMAT/TOEFL, I experience authentic exam structure and timing
-- [ ] As a user taking Pakistani entrance exams, I experience accurate time limits, question counts, and negative marking rules
-- [ ] As a user, I can pause and resume simulated exams with automatic time tracking
-
-### Learning & Coaching System
-- [ ] As a user, I receive step-by-step expert explanations for incorrect answers
-- [ ] As a user, I can access video explanations for complex problems
-- [ ] As a user, I can ask follow-up questions about explanations through AI chat
-- [ ] As a paid user, I can request on-demand coaching for specific topics or question types
-- [ ] As a paid user, I can access the learning center with expert tips and exam strategies
+### Simulated Real Exams (SRE)
+- [ ] As a user, I can take full-length simulated exams matching actual ARDE conditions
+- [ ] As a user, I experience exact timing, question count, marking schemes, and break intervals
+- [ ] As a user, I receive comprehensive performance analysis after SRE completion with ARDE probability insights
+- [ ] As a user, I can see what percentage of my SRE focused on high-probability vs. low-probability questions
+- [ ] As an anonymous user, I get 1 half-length SRE before requiring signup
+- [ ] As a free user, I get 2 full-length SREs during my trial period
+- [ ] As a paid user, I have unlimited SRE access
 
 ### Analytics & Performance Tracking
-- [ ] As a user, I can view my overall performance metrics and trends
-- [ ] As a user, I can see my percentile ranking compared to other users
-- [ ] As a user, I can identify topics where my performance has recently declined
-- [ ] As a user, I can track my historical performance on previously strong topics
-- [ ] As a user, I can view detailed analysis of strengths, weaknesses, and improvement areas
-- [ ] As a user, I can monitor my practice consistency and daily progress
+- [ ] As a user, I can view detailed analytics on my question attempt patterns
+- [ ] As a user, I can see time-to-first-answer, total attempts, and accuracy rates per topic
+- [ ] As a user, I can identify my strongest and weakest subject areas
+- [ ] As a user, I can track my improvement over time with historical performance data
+- [ ] As a system, I maintain separate databases for learning analytics vs. general app usage
+- [ ] As a user, I can export my performance data for external analysis
+- [ ] As a user, I can see what percentage of my practice time focuses on high-ARDE-probability questions
+- [ ] As a user, I can view my performance specifically on questions that frequently appear on real exams
+- [ ] As a user, I can get strategic recommendations on which question types to prioritize based on ARDE data
 
-### Personalized Study Plans
-- [ ] As a user, I receive a comprehensive multi-week study curriculum with daily goals
-- [ ] As a user, I can time-compress my study plan based on remaining days until exam
-- [ ] As a user, I receive dynamic recommendations for next practice topics
-- [ ] As a paid user, I can follow tailored improvement programs focusing on weak areas
-- [ ] As a paid user, I can compare my current performance to historical data on improvement programs
+### Business Intelligence & Analytics
+- [ ] **User Engagement Metrics**: Track page/feature time spent, feature usage frequency, session duration & frequency, and user flow analysis for funnel optimization
+- [ ] **Conversion & Business Metrics**: Monitor tier progression rates, churn analysis, feature adoption patterns, and revenue per user by acquisition channel
+- [ ] **Content Performance**: Analyze question popularity, explanation usage patterns, AI tutoring interaction topics, and error rates across question bank
+- [ ] **Product Optimization**: Performance monitoring for API response times and crash rates, A/B testing framework for pricing/UI changes, and seasonal usage pattern analysis for capacity planning
 
-### Social & Accountability Features
-- [ ] As a user, I can add up to 5 other users to monitor my performance (with their consent)
-- [ ] As a user, I can consent to let specific users monitor my performance for mutual accountability
-- [ ] As a user, I can view performance comparisons with my accountability partners
-- [ ] As a user, I can send and receive encouragement messages through the platform
+### Study Plans & Curriculum
+- [ ] As a user, I can access multi-week structured study plans based on my target ARDE date
+- [ ] As a user, I can accelerate my study plan when time is limited before my exam
+- [ ] As a user, I receive daily goals and progress tracking within my study plan
+- [ ] As a paid user, I can access personalized recommendations based on my weak areas and ARDE probability data
+- [ ] As a user, I can compare my current performance against my historical baseline
+- [ ] As a user with limited time, I can access "Strategic Mode" that prioritizes high-ARDE-probability questions
+- [ ] As a user, my study plan automatically adjusts to focus more on high-probability topics as my ARDE date approaches
 
-### Monetization & Ads
-- [ ] As a non-paid user, I see ads every 5 questions (excluding timing)
-- [ ] As a user, I can upgrade to paid subscription via Stripe integration
-- [ ] As a user, I can choose monthly or annual subscription (annual offers savings)
-- [ ] As a user, my subscription is managed through Paddle.com platform
+### Social Accountability & Competition
+- [ ] As a user, I can view leaderboards showing top performers in my exam category
+- [ ] As a user, I can create or join study groups with friends or other students
+- [ ] As a user, I can view my group members' performance and progress (with their consent)
+- [ ] As a user, I can compete in weekly/monthly challenges with other users
+- [ ] As a user, I can share my achievements and milestones on social platforms
+- [ ] As a group member, I can see comparative analytics showing my performance vs. group average
+- [ ] As a user, I receive motivational notifications about peer achievements and challenges
+- [ ] As a user, I can set group study goals and track collective progress
+- [ ] As a user, I can see how my group performs on high-ARDE-probability questions compared to other groups
+
+### Content Quality & User Support
+- [ ] As a content creator, I am responsible for question accuracy and quality control
+- [ ] As a user, I can report incorrect questions or submit answer corrections through in-app system
+- [ ] As a user, I can access in-app help system and customer support phone number with human assistance
+- [ ] As an admin, I can review and process user-submitted question corrections
+- [ ] As a system, I track user reports to identify problematic content for review
+
+### Admin & Content Creator Tools
+- [ ] As an admin, I can access a comprehensive dashboard for managing questions and variations
+- [ ] As a content creator, I can view analytics on question performance and user interaction
+- [ ] As an admin, I can bulk upload, edit, and manage question bank content
+- [ ] As a content creator, I can track which questions need more variations based on popularity
+- [ ] As an admin, I can manage user accounts, subscriptions, and support requests
+- [ ] As a content creator, I can update ARDE probability and frequency data for questions
+- [ ] As an admin, I can analyze which high-probability questions are underrepresented in the question bank
+
+### Learning Center & Expert Content
+- [ ] As a paid user, I can access video content, written guides, and interactive lessons
+- [ ] As a user, I can browse tips and tricks from subject matter experts
+- [ ] As a user, I can search for specific topics or question types in the learning center
+- [ ] As a user, I can bookmark and organize learning center content
+- [ ] As a user, I can access strategic guides on prioritizing study time based on ARDE probability data
+
+### Monetization & Subscription Management
+- [ ] As a user, I can upgrade from anonymous to free tier seamlessly
+- [ ] As a user, I can upgrade from free to paid tier through Paddle.com integration
+- [ ] As a free user, I see ads after every 5 practice MCQs (time excluded from tracking)
+- [ ] As a paid user, I see minimal ads (every 5 practice MCQs) and only one ad per simulated real exam or sprint exam (time excluded from tracking)
+- [ ] As an admin, I can manage subscription tiers and pricing through Paddle.com
 
 ### UX/UI Considerations
 
-#### Core Interface States
-- [ ] **Dashboard Screen**: Clean overview showing daily progress, upcoming study goals, and quick access to practice modes
-  - **Mobile**: Card-based layout with swipeable sections and prominent CTAs
-  - **Desktop/Web**: Multi-column layout with expanded analytics and side navigation
-  - Loading state with skeleton screens optimized for each screen size
-  - Empty state for new users with onboarding prompts adapted to platform capabilities
-  - Data-rich state with performance charts and recommendations utilizing available screen real estate
-- [ ] **Question Interface**: Distraction-free question display with clear answer options and timer
-  - **Mobile**: Full-screen question with touch-optimized answer buttons
-  - **Desktop/Web**: Centered question area with keyboard shortcuts and expanded explanation panel
-  - Question loading with smooth transitions across all platforms
-  - Answer selection with immediate visual feedback (touch haptics on mobile, hover states on desktop)
-  - Explanation modal overlay with expert content and AI chat option sized appropriately for each platform
-- [ ] **Sprint/Exam Mode**: Full-screen immersive experience replicating actual exam conditions
-  - **Mobile**: Portrait/landscape optimization with gesture-based navigation
-  - **Desktop/Web**: Distraction-free full-screen mode with keyboard navigation support
-  - Pre-exam setup with time selection and instructions adapted to input methods
-  - Active exam state with minimal UI and prominent timer positioned for optimal visibility
-  - Post-exam results with detailed breakdown utilizing full screen capabilities
-- [ ] **Analytics Dashboard**: Rich data visualization showing performance trends and insights
-  - **Mobile**: Vertically stacked charts with touch-based interaction
-  - **Desktop/Web**: Multi-panel dashboard with advanced filtering and larger data visualizations
-  - Interactive charts with platform-appropriate interaction methods (touch vs mouse)
-  - Comparison views for historical and peer performance with responsive layouts
-  - Action-oriented insights with clear next steps optimized for each platform's UX patterns
+#### Onboarding Flow
+- [ ] **Welcome Screen**: Clean, exam-focused design with clear tier explanations and ARDE intelligence highlights
+- [ ] **Exam Selection**: Visual exam category selector with brief descriptions and ARDE data availability indicators
+- [ ] **Anonymous vs. Signup**: Prominent anonymous option with clear upgrade path and ARDE feature previews
 
-#### Progressive Disclosure & Information Architecture
-- [ ] Difficulty selection uses intuitive water-depth metaphors ("getting feet wet" to "deep dive")
-- [ ] Question explanations reveal progressively from hint → step-by-step → full solution
-- [ ] Study plan details expand from daily overview to detailed topic breakdown
-- [ ] Performance analytics start with summary metrics and allow drilling into specific areas
+#### Practice Interface
+- [ ] **Question Display**: Clean MCQ layout with timer, progress indicator, attempt counter, explanation limit indicator, and ARDE probability badge
+- [ ] **Answer Selection**: Clear visual feedback for selected answers
+- [ ] **Immediate Feedback State**: Green/red highlighting with explanation panel (if explanations remaining)
+- [ ] **Explanation Overlay**: Expandable panel with text/video content, AI chat option (subject to daily limits), and ARDE context
+- [ ] **Explanation Limit Notification**: Gentle reminder when approaching daily explanation limit with upgrade suggestion
+- [ ] **ARDE Probability Indicator**: Visual badges showing question importance (High/Medium/Low probability)
+- [ ] **Strategic Filtering**: Easy-access filters for ARDE probability and historical frequency
 
-#### Visual Hierarchy & Animations
-- [ ] Primary CTAs use distinctive colors and platform-appropriate interaction feedback (haptic on mobile, hover on desktop)
-- [ ] Correct/incorrect answer feedback with satisfying micro-animations optimized for each platform
-- [ ] Progress indicators with smooth filling animations that utilize available screen space effectively
-- [ ] Platform-specific navigation patterns (bottom tabs on mobile, side navigation on desktop)
-- [ ] Smooth page transitions using Flutter's hero animations across all platforms for seamless navigation
-- [ ] Loading states with engaging animations that scale appropriately for screen size
-- [ ] Keyboard shortcuts for power users on desktop web version
-- [ ] Touch gestures optimization for mobile with swipe actions where appropriate
+#### Sprint Exam Interface
+- [ ] **Pre-Sprint Setup**: Intuitive configuration with visual question/time selectors and ARDE probability distribution controls
+- [ ] **Sprint Mode**: Focused, distraction-free interface with prominent timer and optional ARDE probability indicators
+- [ ] **Sprint Results**: Comprehensive scorecard with interactive performance breakdown and ARDE probability analysis
+- [ ] **Question Review**: Post-sprint detailed review with filtering, search, and ARDE probability insights
+
+#### Analytics Dashboard
+- [ ] **Performance Overview**: Chart-heavy dashboard with key metrics highlighted and ARDE probability performance tracking
+- [ ] **Topic Breakdown**: Interactive subject/topic performance visualization with ARDE probability weighting
+- [ ] **Historical Trends**: Time-series graphs showing improvement trajectories and strategic question focus
+- [ ] **Recommendations Panel**: AI-driven suggestions with actionable next steps prioritized by ARDE probability
+- [ ] **Strategic Insights**: Dedicated section showing ARDE probability performance and study time optimization
+
+#### Social Features Interface
+- [ ] **Leaderboards**: Clean, filterable rankings by exam type, timeframe, and performance metrics including ARDE-focused challenges
+- [ ] **Group Dashboard**: Collaborative space showing group member progress and shared goals with strategic insights
+- [ ] **Challenge Cards**: Engaging weekly/monthly competition displays with progress tracking and ARDE probability themes
+- [ ] **Achievement Notifications**: Celebratory popups for personal and peer milestones including strategic study achievements
+- [ ] **Comparative Analytics**: Side-by-side performance charts showing user vs. group/global averages with ARDE probability breakdowns
+
+#### Upgrade Prompts
+- [ ] **Gentle Nudges**: Non-intrusive upgrade suggestions with clear value propositions emphasizing ARDE intelligence features
+- [ ] **Limit Reached**: Friendly limit notifications with immediate upgrade options highlighting strategic study benefits
+- [ ] **Feature Previews**: Sneak peeks of premium features including advanced ARDE probability tools
 
 ### Non-Functional Requirements
 
 #### Performance
-- [ ] Question loading must complete within 2 seconds on 3G connections (mobile) and 1 second on broadband (desktop)
-- [ ] App startup time under 3 seconds on mid-range mobile devices, under 2 seconds on desktop browsers
-- [ ] Smooth 60fps animations and transitions throughout the interface across all platforms
-- [ ] Image and video content optimized for mobile data usage with higher quality options for desktop/WiFi
-- [ ] Efficient memory usage to prevent crashes during long study sessions on resource-constrained mobile devices
-- [ ] Optimized web browser performance for desktop users accessing via standard browsers
+- [ ] **Response Time**: API responses under 200ms for question loading including ARDE metadata
+- [ ] **Image Optimization**: Standard compression for question images with lazy loading
+- [ ] **Caching Strategy**: Intelligent question bank caching for frequently accessed content and ARDE probability data
 
 #### Scalability
-- [ ] Microservices architecture supporting horizontal scaling
-- [ ] Database design supporting 100,000+ concurrent users
-- [ ] CDN integration for global content delivery
-- [ ] Auto-scaling Firebase functions for peak usage periods
-- [ ] Efficient caching strategy for frequently accessed questions and explanations
+- [ ] **Database Design**: Optimized for 10,000+ questions with complex querying including ARDE probability filtering
+- [ ] **Auto-scaling**: Firebase Functions auto-scale during seasonal exam periods
+- [ ] **CDN Integration**: Global content delivery for video explanations and images
+- [ ] **Load Testing**: Support for concurrent users during peak exam seasons
 
 #### Security
-- [ ] Firebase Auth integration with secure token management
-- [ ] API rate limiting to prevent abuse and ensure fair usage
-- [ ] Secure payment processing through Stripe with PCI compliance
-- [ ] Data encryption in transit and at rest
-- [ ] User content reporting and moderation system
+- [ ] **Anonymous User Tracking**: Session-based limits without compromising privacy
+- [ ] **Payment Security**: PCI-compliant payment processing through Paddle.com
+- [ ] **API Security**: Rate limiting and authentication for all backend endpoints
 
 #### Accessibility
-- [ ] WCAG 2.1 AA compliance for inclusive design across mobile and desktop interfaces
-- [ ] Screen reader compatibility for visually impaired users on all platforms
-- [ ] High contrast mode support with platform-specific implementations
-- [ ] Scalable text options for users with reading difficulties, utilizing platform text scaling preferences
-- [ ] Voice-over support for question reading on mobile, keyboard navigation on desktop
-- [ ] Platform-appropriate focus management for users with motor disabilities
+- [ ] **Screen Reader Support**: Full compatibility with accessibility tools
+- [ ] **High Contrast Mode**: Alternative color schemes for visual impairments
+- [ ] **Font Scaling**: Adjustable text sizes for improved readability
+- [ ] **Keyboard Navigation**: Complete app functionality without touch/mouse input
 
 ## Technical Architecture
 
-### Backend Infrastructure
-- **API Framework**: Python FastAPI with microservices architecture
-- **Authentication**: Firebase Auth with multi-device session management
-- **Database**: Firebase Firestore for user data, Cloud SQL for question banks
-- **File Storage**: Firebase Storage for video explanations and images
-- **Analytics**: Google Analytics integration with custom event tracking
-- **Payments**: Stripe for processing, Paddle.com for subscription management
+### Frontend Stack
+- **Framework**: Flutter with Dart
+- **State Management**: Riverpod for reactive state management
+- **Navigation**: Flutter's built-in routing with deep linking support
+- **Local Storage**: Hive for offline question caching and user preferences
 
-### Frontend Technology
-- **Framework**: Flutter for true cross-platform deployment (iOS, Android, Web, Desktop)
-- **State Management**: Provider or Riverpod for scalable state handling across all platforms
-- **API Communication**: RESTful APIs with proper error handling and retry logic optimized for mobile and desktop
-- **Platform-Specific Features**: 
-  - Mobile: Push notifications, haptic feedback, camera access for document scanning
-  - Desktop/Web: Keyboard shortcuts, multi-window support, advanced data export capabilities
-  - Web Browser: Standard web application accessible through any modern browser
-- **Responsive Design**: Adaptive layouts that scale from mobile screens to large desktop displays
+### Backend Stack
+- **API Framework**: Python FastAPI for high-performance REST APIs
+- **Hosting**: Firebase Functions for serverless Python execution
+- **Database**: Cloud Firestore for real-time data synchronization
+- **File Storage**: Firebase Storage for video content and images
+- **Authentication**: Firebase Auth with Google/Facebook/Phone/Email providers
 
 ### Third-Party Integrations
-- **Payment Processing**: Stripe API for secure transactions
-- **Subscription Management**: Paddle.com for recurring billing
-- **Analytics**: Google Analytics for user behavior tracking
-- **Push Notifications**: Firebase Cloud Messaging for study reminders
-- **Content Delivery**: Firebase Hosting with global CDN
+- **Analytics**: Google Analytics for app usage insights plus Firebase Crashlytics for error tracking
+- **Payments & Subscriptions**: Paddle.com for complete payment processing
+- **Advertising**: Google AdSense for monetizing free tier users
+- **Content Delivery**: Firebase CDN for global content distribution
 
-### Critical Microservices
-1. **User Management Service**: Authentication, profiles, subscription status
-2. **Question Bank Service**: Question delivery, difficulty matching, content management
-3. **Analytics Service**: Performance tracking, progress calculation, insights generation
-4. **Exam Simulation Service**: Timer management, exam structure replication
-5. **Content Delivery Service**: Expert explanations, video streaming, AI chat responses
-6. **Notification Service**: Study reminders, achievement alerts, social updates
+### Data Architecture
+- **Question Bank**: Structured collections with tagging, difficulty metadata, per-user appearance tracking, appearance probability on ARDE, and reported frequency of appearance on ARDE
+- **User Performance**: Separate analytical database for learning insights with ARDE probability performance tracking
+- **Content Management**: Version-controlled system for question variations, explanations, and ARDE probability updates
 
 ## Monetization
 
-**Revenue Model**: Freemium subscription with advertising support
+**Revenue Streams:**
+1. **Primary**: Monthly/Annual subscriptions through Paddle.com (PKR 2,000/month, PKR 20,000/year)
+2. **Secondary**: Google AdSense revenue from free tier users
 
-**Revenue Streams**:
-1. **Primary**: Monthly/Annual subscriptions through Paddle.com
-   - Monthly subscription: Standard rate
-   - Annual subscription: Discounted rate for cost savings
-   - 3-device limit per subscription
-   
-2. **Secondary**: Advertising revenue from non-paid users
-   - Ads displayed every 5 questions
-   - Ad timing excluded from practice session timers
-   - Non-intrusive ad placement to maintain user experience
+**Conversion Funnel:**
+- Anonymous users → Free users (through usage limits and ARDE feature previews)
+- Free users → Paid users (through 2-week trial expiration and strategic study feature access)
 
-**Pricing Strategy**:
-- Single paid tier with full feature access
-- No multiple subscription levels (Basic/Premium/Pro)
-- Annual subscriptions offer cost savings to encourage longer commitments
-- Anonymous and free users serve as conversion funnel with meaningful trial experience
+**Customer Lifetime Value Strategy:**
+- High engagement through personalized study plans with ARDE intelligence
+- Seasonal retention during exam periods with strategic preparation tools
+- Word-of-mouth growth through exam success stories and improved scores
 
-**Customer Acquisition**:
-- Anonymous user trial (20 questions + 1 sprint + half exam) for immediate value demonstration
-- 2-week free user experience (20 daily questions + 3 weekly sprints) for deeper engagement
-- Social accountability features encouraging organic user acquisition through peer invitations.
+**Pricing Strategy:**
+- Competitive with private tutoring (1/10th the cost)
+- Premium pricing justified by comprehensive analytics, expert content, and exclusive ARDE probability insights
+- Regional pricing adjustments for developing markets
 "
 <!--#endregion-->
 

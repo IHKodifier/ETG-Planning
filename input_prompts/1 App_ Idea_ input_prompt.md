@@ -36,16 +36,16 @@ This app named **"EntryTestGuru"** is an app designed for students to prepare fo
 - The ECAT and MCAT are also briefly called as entry tests or entry test exams.
 - These entry tests are an exam based on  Multiple Choice Questions (MCQs).
 
-This app will help them prepare  and practice Multiple Choice Questions (MCQs)  for the exam. Such exams are conducted once every year so candidates have a 1 shot at this exam to score enough to secure a seat in their colleges/disciplines of interest else they will hasve to wait one full year to re appear. hence they need to put up their best performance. for ECAT and MCAT, the questions are taken from a fixed question bank of nearly  10,000 question  The questions appearing on the exam can have slight variations from the ones in the original question bank, flipping the known and unknown variable or slifghtly changing the variable values just to confuse the student or test his grasp on the topoc. 
+This app will help them prepare  and practice Multiple Choice Questions (MCQs)  for the exam. Such exams are conducted once every year so candidates have a 1 shot at this exam to score enough to secure a seat in their colleges/disciplines of interest else they will hasve to wait one full year to re appear. hence they need to put up their best performance. for ECAT and MCAT, the questions are taken from a fixed question bank of nearly  10,000 question  The questions appearing on the exam can have slight variations from the ones in the original question bank, flipping the known and unknown variable or slifghtly changing the variable values just to confuse the student or test his grasp on the topic. 
 
 The target audience of the app can be 7th or 8th graders preparing for CCAT. In which case, the question bank is not clearly defined, but the topics covered are generally the same.
-The target audience can also be graduate students who are preparing for a competitive exam for a job in civil services of the country in which they opt for certain subjects that they have studied in their undergrad programs.
+
 # Definitions
 First of all let me standardize the terminilogy to be used across the board.
 - **Sprint Exam** is called SE for brevity.
 Multiple choice question is called MCQ for brevity..
 - Simulated Real Exam is called SRE for brevity.  
-- The  **Actual Real Deal Exam (ARDE)** is the real world real deal exam that the user are  preparing for... through our app.Some well known Examples of ARDE include SAT, GRE, GMAT, TOEFL. The Pakistani Engineering College/Medical College  Admission test are also an ARDE. This exam is taken, governed and marked by other entities. It requires proper exam reservations, paying exam fees, selecting dates and test centres, showing up at the test centre on the test  date , taking the exam and then waiting for results. our app has no control over ARDE.  
+- The  **Actual Real Deal Exam (ARDE)** is the real world real deal exam that the user are  preparing for... through our app.Some well known Examples of ARDE include SAT, GRE, GMAT. The Pakistani Engineering College/Medical College  Admission test are also an ARDE. This exam is taken, governed and marked by other entities. It requires proper exam reservations, paying exam fees, selecting dates and test centres, showing up at the test centre on the test  date , taking the exam and then waiting for results. our app has no control over ARDE.  
 Our SREs however mimic the exact exam structure of corresponding  ARDE in terms of
  - number of questions on the exam.
  - marking scheme (e.g. negative marking)
@@ -91,7 +91,7 @@ The app will continuously try to make suggestions and improve their scores throu
 - 1 sprint exam(SE) . On an attempt to take 2nd SE as anonymous users,  they are gracefully required to sign up.  
 -  1 simulated real exam(SRE)  with only half the number of questions found on the real deal exam aka "half length SRE" 
 ## free users :
-free users get to enjoy the app with relatively higher limits than anonymous users. howevet, free users get to use the app for free only for 2 weeks during which they can test out the app with the higher limits compared to anonymous users. During the 2 week period they get... 
+free users get to enjoy the app with relatively higher limits than anonymous users. howevet, free users get to use the app for free only for 2 weeks during which they can test out the app with the higher limits compared to anonymous users. During the 2 week period they get... s
 - 50 daily Practice MCQs to take
 -  Four  SEs. On an attempt to take 5th SE as free users,  they are gracefully required to upgrade to paid tier.  
 -  Two  SREs  
@@ -180,7 +180,7 @@ ${OUTPUT_FORMAT_TEMPLATE} = "[
 * **Firebase** infrastructure will power the backend.
 * The backend will be built in Python using FastAPI
 * My app will only talk to **API endpoints**
-* The authentication will use **Firbase Auth** using Google id,  AuFacebbok id, phone number authentication or plain old Email/password  
+* The authentication will use **Firbase Auth** using Google,Facebook, phone number authentication or plain old Email/password.  
 * front-end will only and only talk to API endpoints for the app
 * I will use Google Analytics  For analytics in my application
 *  subscriptions  and payments will be managed by paddle.com

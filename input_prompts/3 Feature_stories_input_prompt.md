@@ -1,6 +1,4 @@
-            PROMPT  3: FEATURE STORIES
-
-
+# PROMPT  3: FEATURE STORIES
 
 <!-- #region ROLE_DEFINITION -->
 ${ROLE_DEFINITION} = "
@@ -21,46 +19,54 @@ ${CONSULTATION_APPROACH} = "
 - Consider scalability, security, and maintainability in all recommendations
 ";
             <!-- #endregion -->
-
           
 <!-- #region app_details -->
 ${app_details}="
 ## Elevator Pitch
-Entry-Test-Guru is a comprehensive exam preparation app that transforms competitive test preparation through intelligent analytics, adaptive learning, and personalized coaching. Students preparing for SAT, GRE, GMAT, TOEFL, and Pakistani engineering/medical entrance exams get unlimited practice with AI-driven performance insights, expert explanations, and structured study plans that adapt to their exam timeline.
+
+EntryTestGuru is a comprehensive exam preparation platform that helps students master critical admission tests (ECAT, MCAT, CCAT, GMAT, GRE, SAT) through intelligent practice, precise analytics, and adaptive learning. With over 10,000+ MCQs, real-time performance tracking, ARDE probability insights, and personalized study plans, we transform high-stakes exam preparation from stressful cramming into confident, data-driven success.
 
 ## Problem Statement
-Students preparing for competitive entrance exams face multiple critical challenges:
-- **High-stakes pressure**: Most exams are once-yearly with no retake options within the academic cycle
-- **Massive question banks**: 10,000+ questions across multiple subjects make comprehensive preparation overwhelming  
-- **Lack of personalized feedback**: Generic study materials don't address individual weaknesses
-- **Time management struggles**: Students can't effectively simulate real exam conditions or manage preparation timelines
-- **Inconsistent performance tracking**: No systematic way to identify knowledge gaps or track improvement over time
-- **Limited adaptive learning**: Static study plans don't adjust based on performance or remaining time until exam
+
+Students preparing for once-yearly admission exams face three critical challenges:
+
+1. **High Stakes, No Second Chances**: Most exams (ECAT, MCAT, CCAT) offer only one attempt per year with no retakes
+2. **Lack of Targeted Practice**: Generic study materials don't identify individual weaknesses or optimize time allocation based on actual exam patterns
+3. **Poor Time Management Under Pressure**: Students struggle with time constraints and exam anxiety without realistic practice environments and strategic question prioritization
+
+Current solutions are either too generic (standard textbooks) or too expensive (private tutoring), leaving a gap for intelligent, affordable, personalized preparation that leverages real exam data.
 
 ## Target Audience
 
 ### Target Audience Segmentation
 
 **Primary Segments:**
-- **High School Graduates (17-19 years)**: Preparing for undergraduate engineering/medical college entrance exams in Pakistan
-- **College Graduates (21-25 years)**: Preparing for international standardized tests (SAT, GRE, GMAT, TOEFL)
-- **Young Students (13-15 years)**: Preparing for Cadet College entrance examinations
-- **Graduate Students (22-26 years)**: Preparing for civil service competitive exams
 
-**User Personas:**
-- **The Determined Achiever**: High-performing student seeking systematic preparation with detailed analytics
-- **The Time-Crunched Learner**: Student with limited study time needing efficient, targeted practice
-- **The Anxious Test-Taker**: Student requiring confidence-building through progressive difficulty and expert coaching
+* **High School Graduates (16-18 years)**: Preparing for ECAT, MCAT, GMAT, GRE, SAT
+* **Middle School Students (12-14 years)**: Preparing for CCAT (7th-8th graders)
+
+**Geographic Focus:**
+
+* Primary: Pakistan (ECAT, MCAT, CCAT)
+* Secondary: International students (GMAT, GRE, SAT)
+
+**User Tiers:**
+
+* **Anonymous Users**: Trying the platform (20 MCQs + 2 explanations daily, 1 SE, 1 half-length SRE)
+* **Free Users**: 2-week trial with enhanced limits (50 daily MCQs + 4 explanations daily with AI tutoring, 4 SEs, 2 SREs, max 3 devices)
+* **Paid Users**: Unlimited access with premium features (unlimited MCQs + explanations + sprint exams + simulated real exams + fair usage based unlimited AI follow-up tutoring for answer explanations, max 3 devices)
 
 ## Unique Selling Points (USP)
 
-1. **Adaptive Difficulty Progression**: Five-level difficulty system from "getting feet wet" to expert level
-2. **Intelligent Time Compression**: Dynamic study plans that adapt to remaining exam preparation time
-3. **Performance Regression Detection**: Advanced analytics identifying topics where performance has declined
-4. **Expert-AI Hybrid Coaching**: Pre-written expert explanations combined with AI-powered follow-up Q&A
-5. **Flexible Sprint System**: Customizable practice sessions (10-50 questions) based on available time
-6. **Peer Performance Tracking**: Social accountability through consensual performance monitoring
-7. **Exam-Specific Simulation**: Authentic recreation of actual exam conditions and structures
+1. **ARDE Intelligence**: Questions tagged with Actual Real Deal Exam (ARDE)  appearance probability and historical frequency data
+2. **Precision Analytics**: Track time-per-question, attempt patterns, and topic mastery with surgical precision
+3. **Adaptive Question Variations**: Dynamic question variants that test true understanding, not memorization
+4. **Realistic Exam Simulation**: Perfect replicas of actual exam conditions, timing, and marking schemes
+5. **Strategic Study Plans**: Time-compressed curricula that prioritize high-probability questions based on ARDE dates
+6. **Expert-Created Content**: 10,000+ questions with step-by-step explanations, video tutorials, and ARDE probability insights
+7. **Affordable Access**: Comprehensive preparation at a fraction of private tutoring costs
+
+
 
 ## Target Platforms
 - **Primary**: Full-featured web
@@ -74,153 +80,238 @@ Students preparing for competitive entrance exams face multiple critical challen
 <!-- #region features_list -->
 ${features_list}="
 
-## Features (MVP)
+Features (MVP)
 
-### Authentication & Multi-Device Session Management
-Comprehensive user authentication system supporting Google, Facebook, and phone authentication with strict 3-device limit enforcement and basic session management across platforms.
+### Authentication & User Management
 
-#### Tech Involved
-* Firebase Auth for authentication services
-* FastAPI JWT token management service
-* Firebase Firestore for session tracking
-* Flutter platform detection for device fingerprinting
-* Real-time WebSocket connections for session invalidation
-
-#### Main Requirements
-* Device fingerprinting must uniquely identify each platform (mobile app vs web browser)
-* Session invalidation must propagate to all active devices within 30 seconds
-* Anonymous user sessions must seamlessly convert to authenticated sessions with data preservation
-* Basic session management without real-time synchronization between platforms
-* Automatic session cleanup for inactive devices after 30 days
-
-### Question Bank Management System
-Scalable question delivery system with CSV bulk import, admin interface for content management, and intelligent question selection based on difficulty progression and user performance.
+Comprehensive authentication system supporting anonymous users, social logins, and seamless tier transitions with Firebase Auth integration. Handles user onboarding, exam category selection, tier-based access control, and multi-device management with 3-device limit enforcement across the entire platform.
 
 #### Tech Involved
-* FastAPI microservice for question CRUD operations
-* Firebase Cloud Storage for image/video assets
-* Cloud SQL (PostgreSQL) for structured question data with full-text search
-* Pandas for CSV processing and validation
-* Firebase Admin SDK for batch operations
-* Elasticsearch for advanced question filtering and search
+
+* Firebase Auth (Google/Facebook/Phone/Email)
+* Flutter device_info_plus package for device fingerprinting
+* Flutter Riverpod for state management
+* FastAPI user management service with device tracking
+* Cloud Firestore for user profiles, preferences, and device registry
+* JWT token management for API authentication with device validation
+* Real-time notifications via Firebase Cloud Messaging for device management
 
 #### Main Requirements
-* CSV import must validate question format, detect duplicates, and handle malformed data gracefully
-* Question images must be automatically optimized for mobile (WebP) and desktop (multiple resolutions)
-* Admin interface must support bulk editing, question preview, and approval workflows
-* Question selection algorithm must balance difficulty progression with weak topic reinforcement
-* Content delivery must be cached at CDN level with 24-hour TTL for performance
 
-### Adaptive Sprint Examination System
-Timed practice sessions with configurable question counts, real-time performance tracking, and seamless integration with analytics for difficulty adjustment and progress measurement.
+* Anonymous user session tracking without compromising privacy
+* Seamless upgrade path from anonymous → free → paid tiers
+* Real-time sync of user tier limitations and usage statistics
+* Secure token refresh and validation across all API endpoints
+* Support for multiple authentication providers with unified user experience
+* 3-device limit enforcement with device fingerprinting and management
+* Interactive device management interface showing registered devices with removal capabilities
+* 4th device login flow: block access, notify existing devices, require device removal before allowing new device
+* Real-time device status updates across all active sessions
+* Device metadata display with user-customizable device names, automatic device type detection, browser session tracking, last active timestamps, and registration dates
+* Cross-browser device consolidation using automated server-side fingerprint similarity matching (85% threshold) to prevent user manipulation
+
+### Question Bank & Content Management System
+
+Centralized question repository serving 10,000+ MCQs with advanced filtering, ARDE probability tagging, and comprehensive content versioning. Supports batch content updates with approval workflows and real-time question delivery optimized for mobile consumption.
 
 #### Tech Involved
-* FastAPI WebSocket service for real-time timer synchronization
-* Firebase Firestore for sprint session persistence
-* React-like state management in Flutter using Riverpod
-* Background isolates for timer precision
-* Firebase Cloud Functions for sprint result processing
+
+* Cloud Firestore with composite indexing for complex queries
+* Firebase Storage for images and video content
+* FastAPI content management service with async operations
+* Redis caching layer for frequently accessed questions
+* Content delivery via Firebase CDN
 
 #### Main Requirements
-* Timer must continue accurately even during network interruptions with client-side backup
-* Sprint sessions must be resumable with exact time remaining and question state preservation on the same device
-* Ad display timing must be excluded from sprint timers through precise timestamp tracking
-* Sprint results must trigger immediate analytics updates and difficulty adjustments
-* Sprint sessions are device-locked once started to maintain session integrity
 
-### Real-Time Analytics & Performance Tracking
-Comprehensive user performance analytics with regression detection, peer comparisons, and personalized insights generation for adaptive learning recommendations.
+* Millisecond-precision tracking of question interactions and timing data
+* Complex filtering by subject, difficulty, ARDE probability, and user performance history
+* Batch content creation workflow with review/approval pipeline
+* Question variation support with dynamic variable substitution
+* Efficient content caching strategy supporting 100K concurrent users
+* Version control for questions with rollback capabilities
+
+### Practice Mode & Learning Engine
+
+Interactive practice system with immediate feedback, attempt tracking, and intelligent question selection based on user performance patterns. Integrates with analytics engine for precision learning insights and supports tier-based explanation access controls.
 
 #### Tech Involved
-* Firebase Analytics for user behavior tracking
-* FastAPI analytics microservice with background job processing
-* Cloud SQL for historical performance data with time-series optimization
-* Firebase Cloud Functions for real-time metric calculations
-* Chart.js integration in Flutter web for data visualization
-* Celery with Redis for asynchronous analytics processing
+
+* FastAPI practice session service with WebSocket support
+* Cloud Firestore real-time listeners for live progress tracking
+* Redis for session state management and attempt counting
+* Flutter timer widgets with millisecond precision
+* Riverpod for reactive state management of practice sessions
 
 #### Main Requirements
-* Performance regression detection must analyze rolling 30-day windows with statistical significance testing
-* Peer comparison calculations must be privacy-preserving with anonymized data aggregation
-* Analytics updates must complete within 60 seconds of sprint completion
-* Historical data must be efficiently queryable for trend analysis over 6-month periods
-* Real-time dashboards must update automatically without manual refresh across all platforms
 
-### AI-Powered Coaching & Explanation System
-Intelligent tutoring system combining pre-written expert explanations with AI-powered follow-up conversations using external LLM APIs for personalized learning support.
+* Millisecond-level timing precision for each question attempt
+* Real-time enforcement of tier-based daily limits (20/50/unlimited MCQs)
+* Support for up to 3 attempts per question with state persistence
+* Integration with explanation service for tier-based access control
+* Bookmark functionality with cross-device synchronization
+* Offline capability with automatic sync on connectivity restoration
+
+### Sprint Exams & Simulated Real Exams
+
+Comprehensive exam simulation engine delivering timed assessments with configurable parameters and realistic exam conditions. Provides detailed performance analytics and supports both custom sprint configurations and standardized real exam replicas.
 
 #### Tech Involved
-* FastAPI service with async LLM API integration (OpenAI, Anthropic, Gemini)
-* Firebase Firestore for conversation history and explanation caching
-* Content management system for expert explanations with rich media support
-* Rate limiting and cost management for LLM API calls
-* Firebase Cloud Storage for video explanations with adaptive streaming
+
+* FastAPI exam orchestration service with precise timing controls
+* Cloud Firestore for exam configuration and results storage
+* WebSocket connections for real-time exam state synchronization
+* Background Cloud Functions for automated grading and analytics
+* Redis for exam session state management
 
 #### Main Requirements
-* Expert explanations must support rich media (images, equations, videos) with cross-platform rendering
-* AI conversations must maintain context across multiple follow-up questions within sessions
-* LLM responses must be cached intelligently to reduce API costs while maintaining personalization
-* Explanation delivery must adapt to device capabilities (full video on desktop, compressed on mobile)
-* Content versioning must support A/B testing of explanation effectiveness
 
-### Social Accountability & Peer Monitoring
-Consensual performance sharing system with real-time notifications, peer comparisons, and social encouragement features to maintain study motivation and healthy competition.
+* Precise timer implementation with pause/resume capabilities for break intervals
+* Configurable question selection algorithms based on difficulty and ARDE probability
+* Real-time exam state persistence to handle connectivity interruptions
+* Comprehensive scorecard generation with detailed performance breakdowns
+* Integration with analytics engine for historical trend analysis
+* Tier-based exam access controls (1/4/unlimited for anonymous/free/paid)
+
+### AI-Powered Tutoring & Explanation System
+
+Intelligent tutoring system providing contextual explanations and follow-up discussions using external LLM APIs. Implements fair usage policies with tier-based access controls and conversation context management for enhanced learning experiences.
 
 #### Tech Involved
-* Firebase Cloud Messaging for real-time push notifications
-* FastAPI WebSocket service for live peer activity feeds
-* Firebase Firestore with security rules for privacy-controlled data sharing
-* Flutter local notifications for cross-platform notification handling
-* Privacy consent management system with granular permissions
+
+* FastAPI AI orchestration service with multiple LLM provider integrations
+* OpenAI API, Anthropic Claude, Google Gemini API adapters
+* Cloud Firestore for conversation history and context storage
+* Rate limiting and quota management via Redis
+* Background jobs for explanation generation and caching
 
 #### Main Requirements
-* Peer monitoring invitations must require explicit mutual consent with easy revocation
-* Real-time notifications must be delivered within 15 seconds of peer activity
-* Performance sharing must be granular (overall progress vs detailed analytics) with user control
-* Social features must comply with privacy regulations and support data deletion requests
-* Notification frequency must be intelligently throttled to prevent spam while maintaining engagement
 
-### Subscription & Payment Integration
-Comprehensive monetization system with Stripe payment processing, Paddle.com subscription management, and integrated advertising system with precise timing controls.
+* Integration with multiple LLM providers (OpenAI, Anthropic, Gemini, Mistral)
+* Tier-based explanation access control (2/4/unlimited daily explanations)
+* Context-aware conversation management for follow-up questions
+* Fair usage policy implementation with intelligent throttling
+* Explanation caching strategy to optimize API costs and response times
+* Quality filtering and content moderation for generated responses
+
+### Analytics & Performance Tracking Engine
+
+Comprehensive analytics platform capturing millisecond-precision user interactions, learning patterns, and performance metrics. Provides both real-time insights and historical trend analysis with specialized ARDE probability performance tracking.
 
 #### Tech Involved
-* Stripe API for payment processing with webhook handling
-* Paddle.com SDK for subscription lifecycle management
-* FastAPI payment service with idempotent transaction handling
-* Firebase Security Rules for subscription status enforcement
-* Google AdMob integration with Flutter ad plugins
-* Webhook verification and retry logic for payment events
+
+* Separate Cloud Firestore database for analytics data isolation
+* BigQuery for complex analytical queries and data warehousing
+* Google Analytics integration for app usage insights
+* FastAPI analytics service with real-time data processing
+* Background Cloud Functions for metric aggregation and computation
 
 #### Main Requirements
-* Payment processing must handle failed transactions with automatic retry and user notification
-* Subscription status must propagate to all user devices within 60 seconds of payment confirmation
-* Ad display must be precisely timed to exclude ad loading from practice session timers
-* Subscription upgrades/downgrades must be handled seamlessly with prorated billing
-* Payment webhook failures must trigger automatic reconciliation processes
 
-### Simulated Exam Environment
-High-fidelity exam simulation system replicating actual test conditions with precise timing, authentic question structures, and comprehensive performance analysis matching real exam formats.
+* Millisecond-precision timing data capture for all user interactions
+* Separate database architecture isolating learning analytics from operational data
+* Real-time performance metric computation and caching
+* Historical trend analysis with data retention policies
+* Export functionality for external analysis tools
+* ARDE probability performance correlation and strategic recommendations
+* Business intelligence metrics for conversion funnel optimization
+
+### Subscription Management & Monetization
+
+Complete subscription lifecycle management integrated with Paddle.com for payment processing and Google AdSense for free tier monetization. Handles tier transitions, usage enforcement, and billing automation with comprehensive admin controls.
 
 #### Tech Involved
-* FastAPI exam orchestration service with WebSocket real-time communication
-* Firebase Firestore for exam state persistence and recovery
-* Flutter full-screen mode with platform-specific kiosk implementations
-* Background services for preventing interruption during exam mode
-* Cloud Functions for exam scoring and analysis generation
+
+* Paddle.com API integration for subscription management
+* Google AdSense integration with Flutter ad widgets
+* FastAPI subscription service with webhook handling
+* Cloud Functions for automated billing and tier management
+* Cloud Firestore for subscription state and usage tracking
 
 #### Main Requirements
-* Exam environment must prevent platform-specific interruptions (notifications, calls, system dialogs)
-* Timing precision must account for network latency with client-side backup timers
-* Exam sessions are device-locked once started and cannot be transferred to other devices
-* Question delivery must pre-load next questions to eliminate loading delays during timed sections
-* Exam results must generate detailed performance breakdowns matching actual test score reports
+
+* Seamless integration with Paddle.com for global payment processing
+* Real-time subscription status synchronization via webhooks
+* Tier-based feature access enforcement across all system components
+* Advertisement serving with timing exclusion from performance analytics
+* Automated billing cycle management with failure handling
+* Admin dashboard for subscription analytics and customer support
+
+### Social Features & Community Platform
+
+Community-driven learning platform with leaderboards, study groups, and competitive challenges. Supports real-time progress sharing, comparative analytics, and social accountability features to enhance user engagement and retention.
+
+#### Tech Involved
+
+* Cloud Firestore with real-time listeners for social data
+* FastAPI social service with notification orchestration
+* Firebase Cloud Messaging for push notifications
+* Redis for leaderboard computation and caching
+* Background jobs for challenge processing and reward distribution
+
+#### Main Requirements
+
+* Real-time leaderboard updates with efficient ranking algorithms
+* Study group management with privacy controls and member permissions
+* Comparative analytics showing individual vs. group performance metrics
+* Push notification system for social engagement and milestone celebrations
+* Challenge creation and participation tracking with ARDE probability themes
+* Social sharing integration with external platforms
+
+### Device Management & Account Settings
+
+Comprehensive device management system allowing users to view, monitor, and control their registered devices with real-time status updates and intelligent browser consolidation. Provides intuitive interface for device removal when attempting to login on additional devices beyond the 3-device limit, with desktop browsers consolidated as single devices.
+
+#### Tech Involved
+
+* Flutter device management UI components with real-time updates and browser session displays
+* Flutter web platform channels and dart:html for web machine-level identification
+* Cloud Firestore device registry with real-time synchronization for cross-device management visibility
+* Cloud Firestore real-time listeners for device status synchronization across browser sessions
+* FastAPI device management service with CRUD operations and browser session tracking
+* Firebase Cloud Messaging for cross-device notifications and consolidation alerts
+* Device metadata collection and display with browser session details (Chrome, Firefox, Safari active sessions)
+
+#### Main Requirements
+
+* Real-time device registry display showing all registered devices with browser session breakdowns
+* Automated server-side device consolidation using weighted fingerprint similarity algorithm (85% threshold)
+* Interactive device removal functionality with immediate effect across all browser sessions
+* 4th device login workflow: block access, display removal interface with browser session details, require action before proceeding
+* Push notifications to existing devices when new device attempts login with browser/machine context
+* Device status monitoring (online/offline, last active timestamp) with per-browser session granularity
+* Device nickname editing functionality allowing users to personalize their device names (e.g., "My Work Laptop", "Home Desktop")
+* Browser session tracking showing active browsers per desktop device (Chrome, Firefox, Safari, etc.)
+* Immediate session termination on device removal with graceful user experience across all browser sessions
+* Device management accessible from account settings on all platforms with consolidated desktop view
+
+### Content Quality Assurance & Support System
+
+Quality management system for user-generated feedback, content corrections, and customer support workflows. Implements automated issue tracking with admin review processes and maintains content integrity across the platform.
+
+#### Tech Involved
+
+* FastAPI support ticket management service
+* Cloud Firestore for issue tracking and resolution workflows
+* Email integration for customer support communications
+* Admin dashboard components for content review and user management
+* Automated content flagging and quality scoring algorithms
+
+#### Main Requirements
+
+* In-app issue reporting system with categorization and priority handling
+* Admin review workflow for content corrections and quality control
+* Customer support integration with ticketing system and phone support
+* Automated content quality monitoring with flagging mechanisms
+* User feedback aggregation and analysis for continuous improvement
 
 ";
             <!-- #endregion -->
 
-            <!-- #region Output format -->
+
 <!-- #region output_format -->
 ${output_format} = "
+
 Return your output in Markdown ONLY, without pre-text or post-text descriptions.
 
 ## Features List  
@@ -229,13 +320,13 @@ Return your output in Markdown ONLY, without pre-text or post-text descriptions.
 
 - User Stories
   - List personas and their user stories. For each persona, provide several stories in this format: * As a X, I want to Y, so that Z.  
-    ###\# UX/UI Considerations  
+    #### UX/UI Considerations  
     Bullet-point the step-by-step journey a user will have interacting with the product in detail with regard to this specific feature.
-- Core Experience
+- ### Core Experience
   - Description of different "states" of that screen]
   - How it handles state changes visually]
   - Animations, information architecture progressive disclosure, visual hierarchy, etc
-- Advanced Users & Edge Cases  
+- ### Advanced Users & Edge Cases  
   - Description of different "states" of that screen
   - How it handles state changes visually
   - Animations, information architecture, progressive disclosure, visual hierarchy, etc
@@ -244,7 +335,7 @@ Repeat the above structure for each feature in the features_list.
 ";
             <!-- #endregion -->
 
-            <!-- #region Warnings-Guidelines -->
+            
 <!-- #region WARNINGS_GUIDELINES -->
 ${WARNINGS_GUIDELINES} = "
  - **Bold simplicity** with intuitive navigation creating frictionless experiences  
