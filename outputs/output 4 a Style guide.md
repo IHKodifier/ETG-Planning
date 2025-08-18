@@ -3,6 +3,7 @@
 ## 1. Color Palette (Flutter Implementation)
 
 ### AppColors Class
+
 ```dart
 // lib/core/theme/app_colors.dart
 import 'package:flutter/material.dart';
@@ -56,6 +57,7 @@ class AppColors {
 ```
 
 ### Theme Data Configuration
+
 ```dart
 // lib/core/theme/app_theme.dart
 import 'package:flutter/material.dart';
@@ -119,6 +121,7 @@ class AppTheme {
 ## 2. Typography (Flutter TextTheme)
 
 ### Typography Scale
+
 ```dart
 // lib/core/theme/app_text_styles.dart
 import 'package:flutter/material.dart';
@@ -127,7 +130,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppTextStyles {
   // Base font family
   static String get fontFamily => GoogleFonts.inter().fontFamily!;
-  
+
   // Display Styles (Large headings)
   static TextStyle get displayLarge => GoogleFonts.inter(
     fontSize: 36.0, // 2.25rem
@@ -237,6 +240,7 @@ class AppTextStyles {
 ```
 
 ### TextTheme Integration
+
 ```dart
 // In app_theme.dart, add to ThemeData:
 textTheme: TextTheme(
@@ -264,35 +268,36 @@ textTheme: TextTheme(
 dependencies:
   flutter:
     sdk: flutter
-  responsive_framework: ^1.0.0
-  
+  responsive_framework: ^1.5.1
+
   # State Management
   flutter_riverpod: ^2.4.9
-  
+
   # Fonts & Icons
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
-  
+
   # UI & Animations
   animations: ^2.0.8
-  
+
   # Storage
   shared_preferences: ^2.2.2
-  
+
   # Responsive
   flutter_screenutil: ^5.9.0
-  
+
   # Accessibility
   flutter_tts: ^3.8.3
 ```
 
 ### Material 3 Window Size Classes Implementation
+
 ```dart
 // lib/core/theme/app_dimensions.dart - Material 3 + Responsive Framework
 class AppDimensions {
   // Material 3 Window Size Classes using Responsive Framework
   // Source: https://m3.material.io/foundations/layout/applying-layout
-  
+
   // Material 3 Breakpoint Names (for Responsive Framework)
   static const String compact = 'COMPACT';        // 0-600dp (Phones, portrait tablets)
   static const String medium = 'MEDIUM';          // 600-840dp (Large phones, small tablets)
@@ -338,6 +343,7 @@ class AppDimensions {
 ```
 
 ### App Setup with Responsive Framework + Material 3
+
 ```dart
 // lib/main.dart - Complete App Setup
 import 'package:flutter/material.dart';
@@ -369,7 +375,7 @@ class EntryTestGuruApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      
+
       // Responsive Framework Setup with Material 3 breakpoints
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: Stack(
@@ -385,13 +391,13 @@ class EntryTestGuruApp extends ConsumerWidget {
             end: AppDimensions.compactEnd, 
             name: AppDimensions.compact,
           ), // 0-600dp: All phones, portrait tablets
-          
+
           const Breakpoint(
             start: AppDimensions.mediumStart, 
             end: AppDimensions.mediumEnd, 
             name: AppDimensions.medium,
           ), // 601-840dp: Large phones, small tablets
-          
+
           const Breakpoint(
             start: AppDimensions.expandedStart, 
             end: double.infinity, 
@@ -399,7 +405,7 @@ class EntryTestGuruApp extends ConsumerWidget {
           ), // 841dp+: Tablets, desktops, foldables unfolded
         ],
       ),
-      
+
       home: const MainScreen(),
     );
   }
@@ -407,6 +413,7 @@ class EntryTestGuruApp extends ConsumerWidget {
 ```
 
 ### Responsive Utils with Material 3 + Responsive Framework
+
 ```dart
 // lib/core/utils/responsive_utils.dart - Material 3 + Responsive Framework
 import 'package:flutter/material.dart';
@@ -417,10 +424,10 @@ class ResponsiveUtils {
   // Material 3 Window Size Class detection using Responsive Framework
   static WindowSizeClass getWindowSizeClass(BuildContext context) {
     final breakpoint = ResponsiveBreakpoints.of(context).screenType;
-    
+
     final width = _getWidthSizeClass(breakpoint);
     final height = _getHeightSizeClass(context);
-    
+
     return WindowSizeClass(width: width, height: height);
   }
 
@@ -451,7 +458,7 @@ class ResponsiveUtils {
   // Material 3 Navigation Patterns
   static NavigationType getNavigationType(BuildContext context) {
     final widthClass = getWindowSizeClass(context).width;
-    
+
     switch (widthClass) {
       case WindowWidthSizeClass.compact:
         return NavigationType.bottomNavigation;  // Phones
@@ -572,6 +579,7 @@ enum NavigationType {
 ```
 
 ### Responsive Builder with Material 3 + Responsive Framework
+
 ```dart
 // lib/widgets/responsive_builder.dart - Material 3 + Responsive Framework
 import 'package:flutter/material.dart';
@@ -593,17 +601,17 @@ class ResponsiveBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final breakpoint = ResponsiveBreakpoints.of(context).screenType;
-    
+
     switch (breakpoint) {
       case AppDimensions.compact:
         return compact(context, breakpoint);
-      
+
       case AppDimensions.medium:
         return (medium ?? compact)(context, breakpoint);
-      
+
       case AppDimensions.expanded:
         return (expanded ?? medium ?? compact)(context, breakpoint);
-      
+
       default:
         return compact(context, breakpoint);
     }
@@ -624,7 +632,7 @@ class ResponsiveValue<T> {
 
   T getValue(BuildContext context) {
     final breakpoint = ResponsiveBreakpoints.of(context).screenType;
-    
+
     switch (breakpoint) {
       case AppDimensions.compact:
         return compact;
@@ -655,6 +663,7 @@ class ResponsiveWidget extends StatelessWidget {
 ```
 
 ### Practice Screen Example with Responsive Framework
+
 ```dart
 // lib/screens/practice_screen.dart - Material 3 + Responsive Framework
 import 'package:flutter/material.dart';
@@ -694,7 +703,7 @@ class PracticeScreen extends StatelessWidget {
         // Header
         _buildHeader(context),
         const SizedBox(height: AppDimensions.space6),
-        
+
         // Question Card
         Expanded(
           child: _buildQuestionCard(context, isCompact: true),
@@ -743,9 +752,9 @@ class PracticeScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+
         const SizedBox(width: AppDimensions.space6),
-        
+
         // Explanation panel on the right
         Expanded(
           flex: 2,
@@ -782,7 +791,7 @@ class PracticeScreen extends StatelessWidget {
 
   Widget _buildQuestionCard(BuildContext context, {required bool isCompact}) {
     final cardPadding = ResponsiveUtils.getCardPadding(context);
-    
+
     return AppCard(
       padding: EdgeInsets.all(cardPadding),
       child: Column(
@@ -803,7 +812,7 @@ class PracticeScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: cardPadding),
-          
+
           // Question text
           Text(
             'Which of the following is the correct formula for calculating kinetic energy?',
@@ -815,7 +824,7 @@ class PracticeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: cardPadding),
-          
+
           // MCQ Options
           Expanded(
             child: Column(
@@ -827,7 +836,7 @@ class PracticeScreen extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Action buttons
           if (isCompact) ...[
             // Compact layout: stacked buttons
@@ -1014,6 +1023,7 @@ class PracticeScreen extends StatelessWidget {
 ```
 
 ### Navigation Implementation with Responsive Framework
+
 ```dart
 // lib/widgets/app_navigation.dart - Material 3 Navigation Patterns
 import 'package:flutter/material.dart';
@@ -1037,7 +1047,7 @@ class AppNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationType = ResponsiveUtils.getNavigationType(context);
-    
+
     switch (navigationType) {
       case NavigationType.bottomNavigation:
         return _buildBottomNavigation(context);
@@ -1125,37 +1135,11 @@ This updated implementation gives you:
 ✅ **Perfect device coverage** from phones to desktops  
 
 You get the best of both worlds - Responsive Framework's flexibility with Material 3's proven breakpoint strategy! 🎯 content that adapts automatically
-      body: SlotLayout(
-        config: {
-          // Compact: 0-600dp (Phones)
-          Breakpoints.small: SlotLayout.from(
-            key: const Key('Body Small'),
-            builder: (_) => _buildCompactLayout(),
-          ),
-          // Medium: 600-840dp (Large phones, small tablets)
-          Breakpoints.medium: SlotLayout.from(
-            key: const Key('Body Medium'),
-            builder: (_) => _buildMediumLayout(),
-          ),
-          // Expanded: 840dp+ (Tablets, desktops, foldables unfolded)
-          Breakpoints.mediumLarge: SlotLayout.from(
-            key: const Key('Body Large'),
-            builder: (_) => _buildExpandedLayout(),
-          ),
-        },
-      ),
-      
+      body: _buildResponsiveBody(),
       // Secondary body for two-pane layouts (tablets+)
-      secondaryBody: SlotLayout(
-        config: {
-          // Only show secondary pane on larger screens
-          Breakpoints.mediumLarge: SlotLayout.from(
-            key: const Key('Secondary Body'),
-            builder: (_) => _buildSecondaryPane(),
-          ),
-        },
-      ),
+      secondaryBody: _buildResponsiveSecondaryBody(),
     );
+
   }
 
   Widget _buildCompactLayout() {
@@ -1213,6 +1197,26 @@ You get the best of both worlds - Responsive Framework's flexibility with Materi
     }
   }
 
+  Widget _buildResponsiveBody() {
+    // Use ResponsiveBreakpoints for responsive behavior
+    if (ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.xs) || 
+        ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.sm)) {
+      return _buildCompactLayout();
+    } else if (ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.md)) {
+      return _buildMediumLayout();
+    } else {
+      return _buildExpandedLayout();
+    }
+  }
+
+  Widget _buildResponsiveSecondaryBody() {
+    // Only show secondary pane on larger screens
+    if (ResponsiveBreakpoints.of(context).largerThan(ResponsiveBreakpoint.md)) {
+      return _buildSecondaryPane();
+    }
+    return const SizedBox.shrink();
+  }
+
   Widget _buildExplanationPanel() {
     return const Card(
       margin: EdgeInsets.all(16),
@@ -1240,11 +1244,12 @@ You get the best of both worlds - Responsive Framework's flexibility with Materi
 
   // ... other panel implementations
 }
+
 ```
 
 ### Built-in Breakpoints (Flutter Official)
 ```dart
-// These are automatically handled by AdaptiveScaffold
+// These are automatically handled by ResponsiveWrapper
 class Breakpoints {
   static const Breakpoint small = Breakpoint(endWidth: 600);           // 0-600dp: Compact
   static const Breakpoint medium = Breakpoint(beginWidth: 600, endWidth: 840);  // 600-840dp: Medium
@@ -1255,10 +1260,11 @@ class Breakpoints {
 ```
 
 ### Custom Responsive Widgets (For Fine Control)
+
 ```dart
 // lib/widgets/responsive_question_card.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 class ResponsiveQuestionCard extends StatelessWidget {
   final String questionText;
@@ -1274,27 +1280,15 @@ class ResponsiveQuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlotLayout(
-      config: {
-        // Compact: Vertical layout, overlay explanations
-        Breakpoints.small: SlotLayout.from(
-          key: const Key('Question Compact'),
-          builder: (_) => _buildCompactQuestion(),
-        ),
-        
-        // Medium: Still vertical but more spacious
-        Breakpoints.medium: SlotLayout.from(
-          key: const Key('Question Medium'),
-          builder: (_) => _buildMediumQuestion(),
-        ),
-        
-        // Expanded: Horizontal layout with side-by-side explanation
-        Breakpoints.mediumLarge: SlotLayout.from(
-          key: const Key('Question Expanded'),
-          builder: (_) => _buildExpandedQuestion(),
-        ),
-      },
-    );
+    // Use ResponsiveBreakpoints for responsive behavior
+    if (ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.xs) || 
+        ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.sm)) {
+      return _buildCompactQuestion();
+    } else if (ResponsiveBreakpoints.of(context).equals(ResponsiveBreakpoint.md)) {
+      return _buildMediumQuestion();
+    } else {
+      return _buildExpandedQuestion();
+    }
   }
 
   Widget _buildCompactQuestion() {
@@ -1375,7 +1369,7 @@ class ResponsiveQuestionCard extends StatelessWidget {
             ),
           ),
         ),
-        
+
         // Explanation on the right
         if (explanation != null)
           Expanded(
@@ -1438,7 +1432,7 @@ class ResponsiveQuestionCard extends StatelessWidget {
 
   void _showExplanationModal(BuildContext context) {
     if (explanation == null) return;
-    
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -1480,8 +1474,9 @@ class ResponsiveQuestionCard extends StatelessWidget {
 ```
 
 ### Automatic Navigation Patterns
+
 ```dart
-// No code needed! AdaptiveScaffold automatically provides:
+// No code needed! ResponsiveWrapper automatically provides:
 
 // Compact (0-600dp): Bottom Navigation Bar
 // - All phones including iPhone 16 Pro Max (428dp)
@@ -1503,26 +1498,32 @@ class ResponsiveQuestionCard extends StatelessWidget {
 ## 🎯 **Key Benefits of Flutter's Built-in Approach:**
 
 ### ✅ **Zero Configuration Required**
-- AdaptiveScaffold implements the basic visual layout structure for Material Design 3 that adapts to a variety of screens. It provides a preset of layout, including positions and animations, by handling macro changes in navigational elements and bodies based on the current features of the screen, namely screen width and platform
+
+- ResponsiveWrapper implements the basic visual layout structure for Material Design 3 that adapts to a variety of screens. It provides a preset of layout, including positions and animations, by handling macro changes in navigational elements and bodies based on the current features of the screen, namely screen width and platform
 
 ### ✅ **Official Material 3 Compliance**
-- AdaptiveScaffold is built upon AdaptiveLayout internally but abstracts some of the complexity with presets based on the Material 3 Design specification
+
+- ResponsiveWrapper is built upon ResponsiveBreakpoints internally but abstracts some of the complexity with presets based on the Material 3 Design specification
 - Automatically follows Google's official guidelines
 
 ### ✅ **Automatic Foldable Support**
+
 - There is some automatic functionality with foldables to handle the split between panels properly
 - No custom detection code needed
 
 ### ✅ **Built-in Animations**
+
 - Smooth transitions between navigation patterns
 - Material 3 compliant entrance/exit animations
 - Configurable transition durations
 
 ### ✅ **Simplified API**
-- AdaptiveScaffold is much simpler to use but is not the best if you would like high customizability. Apps that would like more refined layout and/or animation should use AdaptiveLayout
+
+- ResponsiveWrapper is much simpler to use but is not the best if you would like high customizability. Apps that would like more refined layout and/or animation should use ResponsiveBreakpoints directly
 - Perfect for EntryTestGuru's needs
 
 This approach gives you **everything you wanted** with minimal code:
+
 - ✅ Industry standard Material 3 breakpoints
 - ✅ Automatic foldable handling  
 - ✅ Zero custom device detection
@@ -1530,7 +1531,8 @@ This approach gives you **everything you wanted** with minimal code:
 - ✅ Built-in navigation patterns
 - ✅ Perfect for all modern devices
 
-**Bottom line**: Use `flutter_adaptive_scaffold` package - it's the official Flutter solution that handles everything automatically! 🎯
+**Bottom line**: Use `responsive_framework` package - it's the actively maintained Flutter solution that provides excellent responsive behavior! 🎯
+
 ```
 
 ### Responsive Helper
@@ -1578,6 +1580,7 @@ class ResponsiveUtils {
 ## 4. Components (Flutter Widgets)
 
 ### Theme Switcher Widget
+
 ```dart
 // lib/widgets/theme_switcher.dart
 import 'package:flutter/material.dart';
@@ -1589,7 +1592,7 @@ class ThemeSwitcher extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Positioned(
       top: AppDimensions.space4 + MediaQuery.of(context).padding.top,
       right: AppDimensions.space4,
@@ -1630,6 +1633,7 @@ class ThemeSwitcher extends ConsumerWidget {
 ```
 
 ### Custom Button Styles
+
 ```dart
 // lib/widgets/custom_buttons.dart
 import 'package:flutter/material.dart';
@@ -1678,7 +1682,7 @@ class AppButton extends StatelessWidget {
 
   ButtonStyle _getButtonStyle(BuildContext context) {
     Color backgroundColor;
-    
+
     switch (type) {
       case ButtonType.primary:
         backgroundColor = _getPrimaryColor();
@@ -1735,6 +1739,7 @@ enum UserTier { anonymous, free, paid }
 ```
 
 ### ARDE Probability Badge
+
 ```dart
 // lib/widgets/arde_badge.dart
 import 'package:flutter/material.dart';
@@ -1829,6 +1834,7 @@ enum ArdeProbability { high, medium, low }
 ```
 
 ### Custom Card Widget
+
 ```dart
 // lib/widgets/app_card.dart
 import 'package:flutter/material.dart';
@@ -1885,6 +1891,7 @@ class AppCard extends StatelessWidget {
 ## 5. Iconography (Flutter Icons)
 
 ### Custom Icon Widget
+
 ```dart
 // lib/widgets/academic_icon.dart
 import 'package:flutter/material.dart';
@@ -1907,7 +1914,7 @@ class AcademicIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iconColor = color ?? Theme.of(context).colorScheme.onSurface;
-    
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 200),
       child: Icon(
@@ -1958,6 +1965,7 @@ enum AcademicIconType {
 ## 6. Motion & Interaction (Flutter Animations)
 
 ### Animation Constants
+
 ```dart
 // lib/core/theme/app_animations.dart
 class AppAnimations {
@@ -1985,7 +1993,7 @@ class AppAnimations {
         const end = Offset.zero;
         final tween = Tween(begin: begin, end: end);
         final offsetAnimation = animation.drive(tween);
-        
+
         return SlideTransition(
           position: offsetAnimation,
           child: child,
@@ -1997,6 +2005,7 @@ class AppAnimations {
 ```
 
 ### Feedback Animations
+
 ```dart
 // lib/widgets/animated_feedback.dart
 import 'package:flutter/material.dart';
@@ -2029,7 +2038,7 @@ class _AnimatedFeedbackState extends State<AnimatedFeedback>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    
+
     _animation = widget.type == FeedbackType.success
         ? Tween<double>(begin: 1.0, end: 1.1).animate(
             CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
@@ -2078,6 +2087,7 @@ enum FeedbackType { success, error }
 ## 7. Accessibility (Flutter Implementation)
 
 ### Focus Management
+
 ```dart
 // lib/core/accessibility/focus_helper.dart
 import 'package:flutter/material.dart';
@@ -2127,6 +2137,7 @@ class FocusHelper {
 ```
 
 ### Screen Reader Support
+
 ```dart
 // lib/widgets/accessible_text.dart
 import 'package:flutter/material.dart';
@@ -2162,6 +2173,7 @@ class AccessibleText extends StatelessWidget {
 ## 8. Responsive Implementation
 
 ### Responsive Builder
+
 ```dart
 // lib/widgets/responsive_builder.dart
 import 'package:flutter/material.dart';
@@ -2200,6 +2212,7 @@ class ResponsiveBuilder extends StatelessWidget {
 ```
 
 ### Navigation Implementation
+
 ```dart
 // lib/widgets/app_navigation.dart
 import 'package:flutter/material.dart';
@@ -2421,6 +2434,7 @@ class NavigationItem {
 ## 9. Theme Provider (Riverpod Implementation)
 
 ### Theme State Management
+
 ```dart
 // lib/providers/theme_provider.dart
 import 'package:flutter/material.dart';
@@ -2466,6 +2480,7 @@ final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
 ## 10. Usage Examples
 
 ### Complete App Setup
+
 ```dart
 // lib/main.dart
 import 'package:flutter/material.dart';
@@ -2509,6 +2524,7 @@ class EntryTestGuruApp extends ConsumerWidget {
 ```
 
 ### Practice Screen Example
+
 ```dart
 // lib/screens/practice_screen.dart
 import 'package:flutter/material.dart';
@@ -2539,7 +2555,7 @@ class PracticeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppDimensions.space6),
-              
+
               // Question Card
               Expanded(
                 child: AppCard(
@@ -2561,7 +2577,7 @@ class PracticeScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: AppDimensions.space6),
-                      
+
                       // Question text
                       Text(
                         'Which of the following is the correct formula for calculating kinetic energy?',
@@ -2570,7 +2586,7 @@ class PracticeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: AppDimensions.space8),
-                      
+
                       // MCQ Options
                       Expanded(
                         child: Column(
@@ -2582,7 +2598,7 @@ class PracticeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
+
                       // Action buttons
                       Row(
                         children: [
@@ -2697,32 +2713,34 @@ class PracticeScreen extends StatelessWidget {
 ## 11. Dependencies Required
 
 ### pubspec.yaml additions
+
 ```yaml
 dependencies:
   flutter:
     sdk: flutter
-  
+
   # State Management
   flutter_riverpod: ^2.4.9
-  
+
   # Fonts & Icons
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
-  
+
   # UI & Animations
   animations: ^2.0.8
-  
+
   # Storage
   shared_preferences: ^2.2.2
-  
+
   # Responsive
   flutter_screenutil: ^5.9.0
-  
+
   # Accessibility
   flutter_tts: ^3.8.3
 ```
 
 ## 12. File Structure
+
 ```
 lib/
 ├── core/
@@ -2768,3 +2786,5 @@ This Flutter-specific style guide provides:
 ✅ **Riverpod state management** for theme switching  
 
 The code is ready to use in your Flutter project and follows Flutter best practices for theming, accessibility, and responsive design.
+
+
