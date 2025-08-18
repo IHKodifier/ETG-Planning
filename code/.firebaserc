@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "entrytestguru-dev",
+    "staging": "entrytestguru-staging",
+    "production": "entrytestguru-prod"
+  },
+  "targets": {},
+  "etags": {}
+}
