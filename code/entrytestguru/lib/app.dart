@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'features/auth/presentation/screens/firebase_test_screen.dart';
+
 class EntryTestGuruApp extends ConsumerWidget {
   const EntryTestGuruApp({super.key});
 
@@ -13,11 +15,7 @@ class EntryTestGuruApp extends ConsumerWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('EntryTestGuru - Coming Soon'),
-        ),
-      ),
+      home: const FirebaseTestScreen(),
     );
   }
 }

@@ -1,7 +1,7 @@
 {
   "projects": {
     "default": "entrytestguru-dev",
-    "staging": "entrytestguru-staging",
+    "dev": "entrytestguru-dev",
     "production": "entrytestguru-prod"
   },
   "targets": {},
