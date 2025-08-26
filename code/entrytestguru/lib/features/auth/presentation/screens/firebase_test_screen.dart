@@ -40,7 +40,10 @@ class _FirebaseTestScreenState extends ConsumerState<FirebaseTestScreen> {
                   children: [
                     const Text(
                       'Firebase Services Status',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     _buildStatusRow('Authentication', authStatus),
@@ -59,14 +62,17 @@ class _FirebaseTestScreenState extends ConsumerState<FirebaseTestScreen> {
                   children: [
                     const Text(
                       'Current Authentication State',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     authState.when(
                       data: (user) => Text(
-                        user != null 
-                          ? 'Signed in: ${user.isAnonymous ? "Anonymous" : user.email ?? "Unknown"}'
-                          : 'Not signed in',
+                        user != null
+                            ? 'Signed in: ${user.email == null ? "Anonymous" : user.email!}'
+                            : 'Not signed in',
                       ),
                       loading: () => const Text('Loading auth state...'),
                       error: (error, stack) => Text('Error: $error'),
@@ -137,10 +143,7 @@ class _FirebaseTestScreenState extends ConsumerState<FirebaseTestScreen> {
           Text('$service: '),
           Text(
             status,
-            style: TextStyle(
-              color: statusColor,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(color: statusColor, fontWeight: FontWeight.bold),
           ),
         ],
       ),

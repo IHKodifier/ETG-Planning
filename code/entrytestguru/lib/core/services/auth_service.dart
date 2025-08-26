@@ -1,8 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/user.dart';
+import 'firebase_auth_service.dart';
+import 'dart:async';
 
 final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
+  return AuthService(ref);
 });
 
 final authStateProvider = StreamProvider<User?>((ref) {
@@ -11,70 +13,129 @@ final authStateProvider = StreamProvider<User?>((ref) {
 });
 
 class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuthService _firebaseAuthService;
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChanges => _firebaseAuthService.authStateChanges;
+  User? get currentUser => _firebaseAuthService.currentUser;
 
-  User? get currentUser => _firebaseAuth.currentUser;
+  AuthService(Ref ref)
+    : _firebaseAuthService = ref.read(firebaseAuthServiceProvider);
 
-  Future<UserCredential?> signInAnonymously() async {
+  Future<AuthTokens> signInAnonymously() async {
     try {
-      final userCredential = await _firebaseAuth.signInAnonymously();
-      print('Anonymous sign-in successful: ${userCredential.user?.uid}');
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      print('Anonymous sign-in failed: ${e.code} - ${e.message}');
-      return null;
+      final authTokens = await _firebaseAuthService.signInAnonymously();
+      print('Anonymous sign-in successful: ${authTokens.user.id}');
+      return authTokens;
     } catch (e) {
-      print('Anonymous sign-in error: $e');
-      return null;
+      print('Anonymous sign-in failed: $e');
+      rethrow;
     }
   }
 
-  Future<UserCredential?> createUserWithEmailAndPassword({
+  Future<User> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+    required String examType,
+    Map<String, dynamic>? profile,
+  }) async {
+    try {
+      final user = await _firebaseAuthService.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+        examType: examType,
+        profile: profile,
+      );
+      print('Account creation successful: ${user.id}');
+      return user;
+    } catch (e) {
+      print('Account creation failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<AuthTokens> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      final authTokens = await _firebaseAuthService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      print('Account creation failed: ${e.message}');
-      return null;
+      print('Sign in successful: ${authTokens.user.id}');
+      return authTokens;
+    } catch (e) {
+      print('Sign in failed: $e');
+      rethrow;
     }
   }
 
-  Future<UserCredential?> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<AuthTokens> signInWithGoogle({String? examType}) async {
     try {
-      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      print('Starting Google Sign-In...');
+      final authTokens = await _firebaseAuthService.signInWithGoogle(
+        examType: examType,
       );
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      print('Sign in failed: ${e.message}');
-      return null;
+      print('Google sign in successful: ${authTokens.user.id}');
+      return authTokens;
+    } catch (e) {
+      print('Google sign in failed: $e');
+      rethrow;
     }
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    try {
+      await _firebaseAuthService.signOut();
+      print('Sign out successful');
+    } catch (e) {
+      print('Sign out failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<User?> getCurrentUser() async {
+    try {
+      return await _firebaseAuthService.getCurrentUser();
+    } catch (e) {
+      print('Get current user failed: $e');
+      return null;
+    }
+  }
+
+  Future<String?> getIdToken() async {
+    try {
+      return await _firebaseAuthService.getIdToken();
+    } catch (e) {
+      print('Get ID token failed: $e');
+      return null;
+    }
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _firebaseAuthService.sendPasswordResetEmail(email);
+      print('Password reset email sent to: $email');
+    } catch (e) {
+      print('Send password reset email failed: $e');
+      rethrow;
+    }
   }
 
   Future<bool> testConnection() async {
     try {
-      await signInAnonymously();
-      await signOut();
-      return true;
+      return await _firebaseAuthService.testConnection();
     } catch (e) {
       print('Auth connection test failed: $e');
       return false;
     }
+  }
+
+  Future<bool> isLoggedIn() async {
+    return await _firebaseAuthService.isLoggedIn();
+  }
+
+  void dispose() {
+    _firebaseAuthService.dispose();
   }
 }

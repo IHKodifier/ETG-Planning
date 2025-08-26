@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'features/auth/presentation/screens/firebase_test_screen.dart';
+import 'core/theme/app_theme.dart';
+import 'providers/theme_provider.dart';
+import 'features/auth/presentation/screens/auth_wrapper.dart';
+import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 
 class EntryTestGuruApp extends ConsumerWidget {
   const EntryTestGuruApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
+
     return MaterialApp(
       title: 'EntryTestGuru',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
-      ),
-      home: const FirebaseTestScreen(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
+      home: const SplashScreen(), // Use splash screen for initial loading
+      routes: {
+        '/home': (context) => const AuthWrapper(),
+        '/login': (context) => const LoginScreen(),
+      },
     );
   }
 }
