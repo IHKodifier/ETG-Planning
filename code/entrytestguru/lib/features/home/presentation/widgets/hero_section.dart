@@ -19,8 +19,8 @@ class HeroSection extends ConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            AppColors.primary600.withValues(alpha: 0.8),
-            AppColors.primary600.withValues(alpha: 0.9),
+            AppColors.primary500.withValues(alpha: 0.8),
+            AppColors.primary500.withValues(alpha: 0.9),
             AppColors.primary700.withValues(alpha: 0.7),
             AppColors.primary900.withValues(alpha: 1),
           ],

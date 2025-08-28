@@ -58,7 +58,7 @@ class FeaturesSection extends ConsumerWidget {
               'ARDE Intelligence',
               'AI-powered question probability tracking that learns from your progress',
               Icons.psychology_outlined,
-              AppColors.primary600,
+              AppColors.primary500,
             ),
             _buildFeatureCard(
               context,

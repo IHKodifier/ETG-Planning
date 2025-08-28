@@ -1,3 +1,4 @@
+// lib/widgets/custom_buttons.dart
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_dimensions.dart';
@@ -26,16 +27,19 @@ class AppButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: _getButtonStyle(context),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 20,
                 height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: _getTextColor(context),
+                ),
               )
             : Text(
                 text,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: _getTextColor(context),
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
       ),
@@ -50,7 +54,7 @@ class AppButton extends StatelessWidget {
         backgroundColor = _getPrimaryColor();
         break;
       case ButtonType.secondary:
-        backgroundColor = Colors.transparent;
+        backgroundColor = Theme.of(context).colorScheme.surface;
         break;
       case ButtonType.outline:
         backgroundColor = Colors.transparent;
@@ -88,13 +92,25 @@ class AppButton extends StatelessWidget {
   }
 
   Color _getTextColor(BuildContext context) {
-    if (type == ButtonType.primary) {
-      return Colors.white;
-    } else {
-      return _getPrimaryColor();
+    switch (type) {
+      case ButtonType.primary:
+        // Ensure high contrast text on primary buttons
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        if (isDark) {
+          // Use pure white text on dark primary buttons for maximum contrast
+          return Colors.white;
+        } else {
+          // Use dark text on light primary buttons
+          return Theme.of(context).colorScheme.onPrimary;
+        }
+      case ButtonType.secondary:
+        return Theme.of(context).colorScheme.onSurface;
+      case ButtonType.outline:
+        return _getPrimaryColor();
     }
   }
 }
 
 enum ButtonType { primary, secondary, outline }
+
 enum UserTier { anonymous, free, paid }

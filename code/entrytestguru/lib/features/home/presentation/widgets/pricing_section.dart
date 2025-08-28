@@ -138,7 +138,7 @@ class PricingSection extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         border: isPopular
-            ? Border.all(color: AppColors.primary600, width: 2)
+            ? Border.all(color: AppColors.primary500, width: 2)
             : null,
         borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
       ),

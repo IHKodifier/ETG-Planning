@@ -1,6 +1,6 @@
+// lib/core/theme/app_theme.dart
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
-import 'app_text_styles.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {
@@ -8,16 +8,19 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: ColorScheme.light(
-        primary: AppColors.primary700,
-        secondary: AppColors.primary500,
-        surface: AppColors.lightBgPrimary,
-        background: AppColors.lightBgSecondary,
+        primary: AppColors.primary700, // Deep burgundy
+        secondary: AppColors.primary500, // Golden accent
+        surface: AppColors.lightBgPrimary, // Cream
+        background: AppColors.lightBgSecondary, // Light cream
         error: AppColors.error,
-        onPrimary: Colors.white,
-        onSecondary: Colors.white,
-        onSurface: AppColors.lightTextPrimary,
+        onPrimary: AppColors.lightBgPrimary, // Cream on burgundy
+        onSecondary: AppColors.lightTextPrimary, // Charcoal on gold
+        onSurface: AppColors.lightTextPrimary, // Charcoal on cream
         onBackground: AppColors.lightTextPrimary,
         onError: Colors.white,
+        outline: AppColors.lightTextTertiary,
+        surfaceVariant: AppColors.lightBgTertiary,
+        onSurfaceVariant: AppColors.lightTextSecondary,
       ),
       scaffoldBackgroundColor: AppColors.lightBgPrimary,
       appBarTheme: AppBarTheme(
@@ -25,20 +28,7 @@ class AppTheme {
         foregroundColor: AppColors.lightTextPrimary,
         elevation: 0,
         centerTitle: true,
-      ),
-      textTheme: TextTheme(
-        displayLarge: AppTextStyles.displayLarge,
-        displayMedium: AppTextStyles.displayMedium,
-        displaySmall: AppTextStyles.displaySmall,
-        headlineLarge: AppTextStyles.headlineLarge,
-        headlineMedium: AppTextStyles.headlineMedium,
-        headlineSmall: AppTextStyles.headlineSmall,
-        bodyLarge: AppTextStyles.bodyLarge,
-        bodyMedium: AppTextStyles.bodyMedium,
-        bodySmall: AppTextStyles.bodySmall,
-        labelLarge: AppTextStyles.labelLarge,
-        labelMedium: AppTextStyles.labelMedium,
-        labelSmall: AppTextStyles.labelSmall,
+        surfaceTintColor: Colors.transparent,
       ),
     );
   }
@@ -48,16 +38,19 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.dark(
-        primary: AppColors.primary500,
-        secondary: AppColors.primary300,
-        surface: AppColors.darkBgSecondary,
-        background: AppColors.darkBgPrimary,
+        primary: AppColors.primary500, // Golden accent
+        secondary: AppColors.primary300, // Muted purple
+        surface: AppColors.darkBgSecondary, // Light charcoal
+        background: AppColors.darkBgPrimary, // Deep charcoal
         error: AppColors.error,
-        onPrimary: Colors.white,
-        onSecondary: Colors.black,
-        onSurface: AppColors.darkTextPrimary,
+        onPrimary: AppColors.darkBgPrimary, // Charcoal on gold
+        onSecondary: AppColors.darkBgPrimary, // Charcoal on purple
+        onSurface: AppColors.darkTextPrimary, // Cream on charcoal
         onBackground: AppColors.darkTextPrimary,
         onError: Colors.white,
+        outline: AppColors.darkTextTertiary,
+        surfaceVariant: AppColors.darkBgTertiary,
+        onSurfaceVariant: AppColors.darkTextSecondary,
       ),
       scaffoldBackgroundColor: AppColors.darkBgPrimary,
       appBarTheme: AppBarTheme(
@@ -65,20 +58,7 @@ class AppTheme {
         foregroundColor: AppColors.darkTextPrimary,
         elevation: 0,
         centerTitle: true,
-      ),
-      textTheme: TextTheme(
-        displayLarge: AppTextStyles.displayLarge,
-        displayMedium: AppTextStyles.displayMedium,
-        displaySmall: AppTextStyles.displaySmall,
-        headlineLarge: AppTextStyles.headlineLarge,
-        headlineMedium: AppTextStyles.headlineMedium,
-        headlineSmall: AppTextStyles.headlineSmall,
-        bodyLarge: AppTextStyles.bodyLarge,
-        bodyMedium: AppTextStyles.bodyMedium,
-        bodySmall: AppTextStyles.bodySmall,
-        labelLarge: AppTextStyles.labelLarge,
-        labelMedium: AppTextStyles.labelMedium,
-        labelSmall: AppTextStyles.labelSmall,
+        surfaceTintColor: Colors.transparent,
       ),
     );
   }

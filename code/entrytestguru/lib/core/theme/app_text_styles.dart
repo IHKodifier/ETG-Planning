@@ -1,65 +1,67 @@
+// lib/core/theme/app_text_styles.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyles {
-  // Base font family
-  static String get fontFamily => GoogleFonts.inter().fontFamily!;
+  // Base font family - Using Crimson Text for academic feel
+  static String get fontFamily => GoogleFonts.crimsonText().fontFamily!;
+  static String get accentFontFamily => GoogleFonts.inter().fontFamily!;
 
   // Display Styles (Large headings)
-  static TextStyle get displayLarge => GoogleFonts.inter(
-    fontSize: 36.0, // 2.25rem
+  static TextStyle get displayLarge => GoogleFonts.crimsonText(
+    fontSize: 36.0,
     fontWeight: FontWeight.w700,
     height: 1.25,
     letterSpacing: -0.5,
   );
 
-  static TextStyle get displayMedium => GoogleFonts.inter(
-    fontSize: 30.0, // 1.875rem
+  static TextStyle get displayMedium => GoogleFonts.crimsonText(
+    fontSize: 30.0,
     fontWeight: FontWeight.w600,
     height: 1.25,
     letterSpacing: -0.25,
   );
 
-  static TextStyle get displaySmall => GoogleFonts.inter(
-    fontSize: 24.0, // 1.5rem
+  static TextStyle get displaySmall => GoogleFonts.crimsonText(
+    fontSize: 24.0,
     fontWeight: FontWeight.w600,
     height: 1.25,
   );
 
   // Headline Styles
-  static TextStyle get headlineLarge => GoogleFonts.inter(
-    fontSize: 20.0, // 1.25rem
+  static TextStyle get headlineLarge => GoogleFonts.crimsonText(
+    fontSize: 20.0,
     fontWeight: FontWeight.w600,
     height: 1.3,
   );
 
-  static TextStyle get headlineMedium => GoogleFonts.inter(
-    fontSize: 18.0, // 1.125rem
+  static TextStyle get headlineMedium => GoogleFonts.crimsonText(
+    fontSize: 18.0,
     fontWeight: FontWeight.w500,
     height: 1.3,
   );
 
-  static TextStyle get headlineSmall => GoogleFonts.inter(
-    fontSize: 16.0, // 1rem
+  static TextStyle get headlineSmall => GoogleFonts.crimsonText(
+    fontSize: 16.0,
     fontWeight: FontWeight.w500,
     height: 1.3,
   );
 
-  // Body Styles
+  // Body Styles - Inter for better readability
   static TextStyle get bodyLarge => GoogleFonts.inter(
-    fontSize: 16.0, // 1rem
+    fontSize: 16.0,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
   static TextStyle get bodyMedium => GoogleFonts.inter(
-    fontSize: 14.0, // 0.875rem
+    fontSize: 14.0,
     fontWeight: FontWeight.w400,
     height: 1.5,
   );
 
   static TextStyle get bodySmall => GoogleFonts.inter(
-    fontSize: 12.0, // 0.75rem
+    fontSize: 12.0,
     fontWeight: FontWeight.w400,
     height: 1.4,
   );
@@ -87,7 +89,7 @@ class AppTextStyles {
   );
 
   // Specialized Styles
-  static TextStyle get questionText => GoogleFonts.inter(
+  static TextStyle get questionText => GoogleFonts.crimsonText(
     fontSize: 18.0,
     fontWeight: FontWeight.w400,
     height: 1.5,
