@@ -1,3 +1,4 @@
+import 'package:entrytestguru/features/auth/presentation/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../widgets/app_button.dart';
@@ -54,7 +55,7 @@ class HeroSection extends ConsumerWidget {
                 const SizedBox(height: AppDimensions.space6),
                 _buildHeroSubtitle(context),
                 const SizedBox(height: AppDimensions.space8),
-                _buildHeroButtons(),
+                _buildHeroButtons(context),
               ],
             ),
           ),
@@ -117,13 +118,20 @@ class HeroSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeroButtons() {
+  Widget _buildHeroButtons(BuildContext context) {
     return Wrap(
       spacing: AppDimensions.space4,
       runSpacing: AppDimensions.space3,
       alignment: WrapAlignment.center,
       children: [
-        AppButton(text: 'Start Learning Now', onPressed: () {}),
+        AppButton(
+          text: 'Start Learning Now',
+          onPressed: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          },
+        ),
         AppButton(
           text: 'Take Free Demo',
           type: ButtonType.outline,
