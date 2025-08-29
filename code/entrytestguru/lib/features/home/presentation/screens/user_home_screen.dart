@@ -1,3 +1,4 @@
+import 'package:entrytestguru/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/models/user.dart';
@@ -13,11 +14,12 @@ class UserHomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
+    final authService = ref.read(authServiceProvider);
 
     return authState.when(
       data: (user) {
         if (user != null) {
-          return _buildUserHomeContent(context, user);
+          return _buildUserHomeContent(context, user, ref);
         } else {
           // This shouldn't happen, but fallback to login if needed
           return const Center(child: Text('User not found'));
@@ -50,11 +52,11 @@ class UserHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildUserHomeContent(BuildContext context, User user) {
+  Widget _buildUserHomeContent(BuildContext context, User user, WidgetRef ref) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _buildAppBar(context, user),
+          _buildAppBar(context, user, ref),
           _buildWelcomeSection(context, user),
           _buildStatsSection(context, user),
           _buildQuickActionsSection(context, user),
@@ -64,7 +66,8 @@ class UserHomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context, User user) {
+  Widget _buildAppBar(BuildContext context, User user, WidgetRef ref) {
+    final authService = ref.read(authServiceProvider);
     return SliverAppBar(
       expandedHeight: 80,
       floating: true,
@@ -106,7 +109,38 @@ class UserHomeScreen extends ConsumerWidget {
                 else
                   const Text('Guest', style: TextStyle(fontSize: 14)),
                 const SizedBox(width: 8),
-                const Icon(Icons.account_circle, size: 24),
+                // const IconButton(
+                //   Icons.account_circle,
+                //   onPressed: pop,
+                //   size: 24),
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.account_circle), // Profile icon
+                  onSelected: (String value) {
+                    if (value == 'edit_profile') {
+                      // Handle edit profile
+                      print('Edit Profile selected');
+                    } else if (value == 'sign_out') {
+                      // Handle sign out
+                      print('Sign Out selected');
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => [
+                    const PopupMenuItem<String>(
+                      value: 'edit_profile',
+                      child: Text('Edit Profile'),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'sign_out',
+                      child: const Text('Sign Out'),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: signOutConfirmationDialogbuilder,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ],
             ),
           ],
@@ -126,7 +160,7 @@ class UserHomeScreen extends ConsumerWidget {
           horizontal: ResponsiveUtils.getResponsivePadding(context),
           vertical: AppDimensions.space8,
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -171,7 +205,7 @@ class UserHomeScreen extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(AppDimensions.space6),
+        padding: const EdgeInsets.all(AppDimensions.space6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -262,7 +296,7 @@ class UserHomeScreen extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(AppDimensions.space6),
+        padding: const EdgeInsets.all(AppDimensions.space6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -326,7 +360,7 @@ class UserHomeScreen extends ConsumerWidget {
     return SliverToBoxAdapter(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(AppDimensions.space6),
+        padding: const EdgeInsets.all(AppDimensions.space6),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -387,6 +421,39 @@ class UserHomeScreen extends ConsumerWidget {
     } else {
       return 'Good Evening';
     }
+  }
+
+  Widget signOutConfirmationDialogbuilder(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, child) => AlertDialog(
+        contentPadding: const EdgeInsets.all(AppDimensions.cardPaddingDesktop),
+        elevation: 5,
+        content: Text(
+          'Are you sure you want to log out ?',
+          style: AppTextStyles.displayMedium,
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              AppButton(
+                text: 'Cancel',
+                onPressed: () => Navigator.pop(context),
+                type: ButtonType.outline,
+              ),
+              AppButton(
+                text: 'Yes, Sign out',
+                onPressed: () {
+                  final authService = ref.read(authServiceProvider);
+                  authService.signOut();
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
