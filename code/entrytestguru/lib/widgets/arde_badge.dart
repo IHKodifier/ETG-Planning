@@ -1,3 +1,4 @@
+// lib/widgets/arde_badge.dart
 import 'package:flutter/material.dart';
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_dimensions.dart';
@@ -27,11 +28,7 @@ class ArdeBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            _getIcon(),
-            size: 12,
-            color: _getColor(),
-          ),
+          Icon(_getIcon(), size: 12, color: _getColor()),
           if (showLabel) ...[
             const SizedBox(width: AppDimensions.space1),
             Text(

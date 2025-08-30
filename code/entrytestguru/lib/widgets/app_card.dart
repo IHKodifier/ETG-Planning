@@ -1,3 +1,4 @@
+// lib/widgets/app_card.dart
 import 'package:flutter/material.dart';
 import '../core/theme/app_dimensions.dart';
 import '../core/utils/responsive_utils.dart';
@@ -22,7 +23,7 @@ class AppCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDesktop = ResponsiveUtils.isDesktop(context);
     final isTablet = ResponsiveUtils.isTablet(context);
-    
+
     EdgeInsetsGeometry cardPadding;
     if (padding != null) {
       cardPadding = padding!;
@@ -43,10 +44,7 @@ class AppCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-        child: Padding(
-          padding: cardPadding,
-          child: child,
-        ),
+        child: Padding(padding: cardPadding, child: child),
       ),
     );
   }

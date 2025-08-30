@@ -8,8 +8,8 @@ class ResponsiveUtils {
 
   static bool isTablet(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return width >= AppDimensions.mobileBreakpoint && 
-           width < AppDimensions.desktopBreakpoint;
+    return width >= AppDimensions.mobileBreakpoint &&
+        width < AppDimensions.desktopBreakpoint;
   }
 
   static bool isDesktop(BuildContext context) {
