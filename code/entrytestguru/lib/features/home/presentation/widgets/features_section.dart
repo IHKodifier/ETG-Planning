@@ -1,133 +1,156 @@
+// lib/widgets/features_section.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../widgets/app_card.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_dimensions.dart';
-import '../../../../core/utils/responsive_utils.dart';
 
-class FeaturesSection extends ConsumerWidget {
+class FeaturesSection extends StatelessWidget {
   const FeaturesSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 1024;
+    final isTablet = screenSize.width > 768;
+
     return Container(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.grey.shade50
-          : Theme.of(context).colorScheme.surface.withOpacity(0.3),
-      child: Container(
-        constraints: BoxConstraints(
-          maxWidth: ResponsiveUtils.getMaxContentWidth(context),
-        ),
-        padding: EdgeInsets.all(ResponsiveUtils.getResponsivePadding(context)),
-        child: Column(
-          children: [
-            const SizedBox(height: AppDimensions.space12),
-            _buildSectionTitle(context),
-            const SizedBox(height: AppDimensions.space8),
-            _buildFeaturesGrid(context),
-            const SizedBox(height: AppDimensions.space12),
-          ],
-        ),
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 64 : 16,
+        vertical: 80,
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Integrated solutions designed for small business',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurface,
+
+              // textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 64),
+          _buildFeatureGrid(context),
+        ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context) {
-    return SelectableText(
-      'Everything you need to ace your entrance exams',
-      style: Theme.of(
-        context,
-      ).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700),
-      textAlign: TextAlign.center,
-    );
+  Widget _buildFeatureGrid(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 1024;
+    final isTablet = screenSize.width > 768;
+
+    final features = [
+      _FeatureData(
+        icon: Icons.speed,
+        title: 'Fast & Reliable',
+        description:
+            'Lightning-fast performance with 99.9% uptime guarantee for your critical business operations.',
+      ),
+      _FeatureData(
+        icon: Icons.security,
+        title: 'Secure & Private',
+        description:
+            'Enterprise-grade security with end-to-end encryption to protect your sensitive data.',
+      ),
+      _FeatureData(
+        icon: Icons.analytics,
+        title: 'Advanced Analytics',
+        description:
+            'Powerful analytics tools with real-time insights and customizable reporting dashboards.',
+      ),
+    ];
+
+    if (isDesktop) {
+      return Row(
+        children: features
+            .map(
+              (feature) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: _buildFeatureCard(context, feature),
+                ),
+              ),
+            )
+            .toList(),
+      );
+    } else {
+      return Column(
+        children: features
+            .map(
+              (feature) => Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: _buildFeatureCard(context, feature),
+              ),
+            )
+            .toList(),
+      );
+    }
   }
 
-  Widget _buildFeaturesGrid(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: ResponsiveUtils.getGridColumns(context),
-          mainAxisSpacing: AppDimensions.space6,
-          crossAxisSpacing: AppDimensions.space6,
-          childAspectRatio: ResponsiveUtils.isDesktop(context) ? 1.1 : 1.0,
-          children: [
-            _buildFeatureCard(
-              context,
-              'ARDE Intelligence',
-              'AI-powered question probability tracking that learns from your progress',
-              Icons.psychology_outlined,
-              AppColors.primary500,
-            ),
-            _buildFeatureCard(
-              context,
-              'Smart Analytics',
-              'Detailed insights into your performance with personalized recommendations',
-              Icons.analytics_outlined,
-              AppColors.freePrimary,
-            ),
-            _buildFeatureCard(
-              context,
-              'Adaptive Testing',
-              'Dynamic mock tests that adjust to your skill level and learning pace',
-              Icons.quiz_outlined,
-              AppColors.paidPrimary,
-            ),
-            _buildFeatureCard(
-              context,
-              'Progress Tracking',
-              'Visual progress reports to keep you motivated and on track',
-              Icons.trending_up_outlined,
-              AppColors.ardeHigh,
-            ),
-          ],
-        );
-      },
-    );
-  }
+  Widget _buildFeatureCard(BuildContext context, _FeatureData feature) {
+    final theme = Theme.of(context);
 
-  Widget _buildFeatureCard(
-    BuildContext context,
-    String title,
-    String description,
-    IconData icon,
-    Color accentColor,
-  ) {
-    return AppCard(
-      elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      child: Padding(
-        padding: const EdgeInsets.all(AppDimensions.space6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(AppDimensions.space3),
-              decoration: BoxDecoration(
-                color: accentColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-              ),
-              child: Icon(icon, size: 24, color: accentColor),
+    return Container(
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: theme.shadowColor.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(40),
             ),
-            const SizedBox(height: AppDimensions.space4),
-            SelectableText(
-              title,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+            child: Icon(
+              feature.icon,
+              size: 40,
+              color: theme.colorScheme.primary,
             ),
-            const SizedBox(height: AppDimensions.space2),
-            SelectableText(
-              description,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).textTheme.bodySmall?.color,
-                height: 1.5,
-              ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            feature.title,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurface,
             ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            feature.description,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              height: 1.6,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
+}
+
+class _FeatureData {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  _FeatureData({
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
 }

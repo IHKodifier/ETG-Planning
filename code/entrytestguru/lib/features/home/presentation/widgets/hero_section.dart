@@ -1,143 +1,183 @@
-import 'package:entrytestguru/features/auth/presentation/screens/login_screen.dart';
+// lib/widgets/hero_section.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../widgets/app_button.dart';
-import '../../../../core/theme/app_dimensions.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/responsive_utils.dart';
 
-class HeroSection extends ConsumerWidget {
+class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 768;
+    final isTablet = screenSize.width > 576 && screenSize.width <= 768;
+
     return Container(
-      height: ResponsiveUtils.isDesktop(context) ? 500 : 400,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColors.primary500.withValues(alpha: 0.8),
-            AppColors.primary500.withValues(alpha: 0.9),
-            AppColors.primary700.withValues(alpha: 0.7),
-            AppColors.primary900.withValues(alpha: 1),
-          ],
-        ),
-        image: const DecorationImage(
-          image: AssetImage('assets/images/exam_hero_bg.webp'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
-        ),
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 64 : 16,
+        vertical: isDesktop ? 80 : 40,
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.transparent, Colors.black54],
+      child: Column(
+        children: [
+          if (isDesktop)
+            Row(
+              children: [
+                Expanded(flex: 6, child: _buildContent(context)),
+                const SizedBox(width: 64),
+                Expanded(flex: 4, child: _buildIllustration(context)),
+              ],
+            )
+          else
+            Column(
+              children: [
+                _buildContent(context),
+                const SizedBox(height: 40),
+                _buildIllustration(context),
+              ],
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDesktop = MediaQuery.of(context).size.width > 768;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Welcome To Essentials.',
+          style: theme.textTheme.displayMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
+            fontSize: isDesktop ? 48 : 32,
+            height: 1.2,
           ),
         ),
-        child: Center(
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: ResponsiveUtils.getMaxContentWidth(context),
+        const SizedBox(height: 16),
+        Text(
+          'The World\'s Most Powerful Business Intelligence Tool.',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: theme.colorScheme.primary,
+            fontWeight: FontWeight.w600,
+            fontSize: isDesktop ? 28 : 20,
+          ),
+        ),
+        const SizedBox(height: 24),
+        Text(
+          'Transform your business with cutting-edge analytics and insights. Our platform provides comprehensive data visualization and reporting tools to help you make informed decisions.',
+          style: theme.textTheme.bodyLarge?.copyWith(
+            color: theme.colorScheme.onSurface.withOpacity(0.7),
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 32),
+        Row(
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Get Started',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
-            padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveUtils.getResponsivePadding(context),
-              vertical: AppDimensions.space12,
+            const SizedBox(width: 16),
+            OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                foregroundColor: theme.colorScheme.primary,
+                side: BorderSide(color: theme.colorScheme.primary),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Learn More',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildIllustration(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      height: 300,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
+      ),
+      child: Stack(
+        children: [
+          // Background elements
+          Positioned(
+            top: 40,
+            left: 40,
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.tertiary.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 60,
+            right: 60,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondary.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          // Central illustration placeholder
+          Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildHeroTitle(context),
-                const SizedBox(height: AppDimensions.space6),
-                _buildHeroSubtitle(context),
-                const SizedBox(height: AppDimensions.space8),
-                _buildHeroButtons(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeroTitle(BuildContext context) {
-    return SelectableText(
-      'Entrance Exam preparation with SURGICAL PRECISION',
-      style: ResponsiveUtils.isDesktop(context)
-          ? Theme.of(context).textTheme.displayLarge?.copyWith(
-              fontSize: 56,
-              fontWeight: FontWeight.w900,
-              height: 1.55,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  offset: const Offset(0, 2),
-                  blurRadius: 8,
-                  color: Colors.black.withValues(alpha: 0.5),
+                Icon(
+                  Icons.analytics_outlined,
+                  size: 80,
+                  color: theme.colorScheme.primary,
                 ),
-              ],
-            )
-          : Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: 36,
-              fontWeight: FontWeight.w800,
-              height: 1.2,
-              color: Colors.white,
-              shadows: [
-                Shadow(
-                  offset: const Offset(0, 2),
-                  blurRadius: 6,
-                  color: Colors.black.withOpacity(0.5),
+                const SizedBox(height: 16),
+                Text(
+                  'Business Intelligence',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildHeroSubtitle(BuildContext context) {
-    return SelectableText(
-      'AI-Powered Learning with Real Exam Probability Tracking',
-      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-        fontSize: ResponsiveUtils.isDesktop(context) ? 24 : 20,
-        fontWeight: FontWeight.w400,
-        height: 1.4,
-        color: Colors.white.withOpacity(0.95),
-        shadows: [
-          Shadow(
-            offset: const Offset(0, 1),
-            blurRadius: 4,
-            color: Colors.black.withOpacity(0.3),
           ),
         ],
       ),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildHeroButtons(BuildContext context) {
-    return Wrap(
-      spacing: AppDimensions.space4,
-      runSpacing: AppDimensions.space3,
-      alignment: WrapAlignment.center,
-      children: [
-        AppButton(
-          text: 'Start Learning Now',
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            );
-          },
-        ),
-        AppButton(
-          text: 'Take Free Demo',
-          type: ButtonType.outline,
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }

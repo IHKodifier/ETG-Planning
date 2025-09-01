@@ -1,247 +1,273 @@
+// lib/widgets/pricing_section.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../widgets/app_button.dart';
-import '../../../../widgets/app_card.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_dimensions.dart';
-import '../../../../core/utils/responsive_utils.dart';
 
-class PricingSection extends ConsumerWidget {
+class PricingSection extends StatelessWidget {
   const PricingSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 1024;
+
     return Container(
-      constraints: BoxConstraints(
-        maxWidth: ResponsiveUtils.getMaxContentWidth(context),
+      padding: EdgeInsets.symmetric(
+        horizontal: isDesktop ? 64 : 16,
+        vertical: 80,
       ),
-      padding: EdgeInsets.all(ResponsiveUtils.getResponsivePadding(context)),
       child: Column(
         children: [
-          const SizedBox(height: AppDimensions.space12),
-          _buildSectionTitle(context),
-          const SizedBox(height: AppDimensions.space3),
-          _buildSectionSubtitle(context),
-          const SizedBox(height: AppDimensions.space8),
+          Text(
+            'Pricing for every business, at any stage.',
+            style: theme.textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurface,
+              // textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 64),
           _buildPricingCards(context),
-          const SizedBox(height: AppDimensions.space12),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(BuildContext context) {
-    return SelectableText(
-      'Choose your learning journey',
-      style: Theme.of(
-        context,
-      ).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.w700),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildSectionSubtitle(BuildContext context) {
-    return SelectableText(
-      'Start for free, upgrade when you need more',
-      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-        color: Theme.of(context).textTheme.bodyMedium?.color,
-        fontWeight: FontWeight.w400,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-
   Widget _buildPricingCards(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (ResponsiveUtils.isDesktop(context)) {
-          return Row(
-            children: [
-              Expanded(
-                child: _buildPricingCard(
-                  context,
-                  'Anonymous',
-                  'Try for free',
-                  'No signup required',
-                  UserTier.anonymous,
-                  false,
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 1024;
+
+    final plans = [
+      _PricingPlan(
+        name: 'Starter',
+        price: '25',
+        period: 'month',
+        description: 'Perfect for small teams getting started',
+        features: [
+          'Up to 5 users',
+          'Basic analytics',
+          '10GB storage',
+          'Email support',
+        ],
+        isPopular: false,
+      ),
+      _PricingPlan(
+        name: 'Professional',
+        price: '59',
+        period: 'month',
+        description: 'Great for growing businesses',
+        features: [
+          'Up to 25 users',
+          'Advanced analytics',
+          '100GB storage',
+          'Priority support',
+          'Custom integrations',
+        ],
+        isPopular: true,
+      ),
+      _PricingPlan(
+        name: 'Enterprise',
+        price: '99',
+        period: 'month',
+        description: 'For large organizations',
+        features: [
+          'Unlimited users',
+          'Full analytics suite',
+          'Unlimited storage',
+          '24/7 phone support',
+          'Custom integrations',
+          'Dedicated account manager',
+        ],
+        isPopular: false,
+      ),
+    ];
+
+    if (isDesktop) {
+      return Row(
+        children: plans
+            .map(
+              (plan) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: _buildPricingCard(context, plan),
                 ),
               ),
-              const SizedBox(width: AppDimensions.space4),
-              Expanded(
-                child: _buildPricingCard(
-                  context,
-                  'Free',
-                  'Free forever',
-                  'Basic features included',
-                  UserTier.free,
-                  false,
-                ),
+            )
+            .toList(),
+      );
+    } else {
+      return Column(
+        children: plans
+            .map(
+              (plan) => Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: _buildPricingCard(context, plan),
               ),
-              const SizedBox(width: AppDimensions.space4),
-              Expanded(
-                child: _buildPricingCard(
-                  context,
-                  'Premium',
-                  '\$9.99/month',
-                  'Full ARDE Intelligence',
-                  UserTier.paid,
-                  true,
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Column(
-            children: [
-              _buildPricingCard(
-                context,
-                'Anonymous',
-                'Try for free',
-                'No signup required',
-                UserTier.anonymous,
-                false,
-              ),
-              const SizedBox(height: AppDimensions.space4),
-              _buildPricingCard(
-                context,
-                'Free',
-                'Free forever',
-                'Basic features included',
-                UserTier.free,
-                false,
-              ),
-              const SizedBox(height: AppDimensions.space4),
-              _buildPricingCard(
-                context,
-                'Premium',
-                '\$9.99/month',
-                'Full ARDE Intelligence',
-                UserTier.paid,
-                true,
-              ),
-            ],
-          );
-        }
-      },
-    );
+            )
+            .toList(),
+      );
+    }
   }
 
-  Widget _buildPricingCard(
-    BuildContext context,
-    String tier,
-    String price,
-    String description,
-    UserTier userTier,
-    bool isPopular,
-  ) {
+  Widget _buildPricingCard(BuildContext context, _PricingPlan plan) {
+    final theme = Theme.of(context);
+
     return Container(
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        border: isPopular
-            ? Border.all(color: AppColors.primary500, width: 2)
-            : null,
-        borderRadius: BorderRadius.circular(AppDimensions.radiusMedium),
-      ),
-      child: AppCard(
-        elevation: isPopular ? 8 : 2,
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimensions.space6),
-          child: Column(
-            children: [
-              if (isPopular) ...[
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.space3,
-                    vertical: AppDimensions.space1,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary600,
-                    borderRadius: BorderRadius.circular(
-                      AppDimensions.radiusSmall,
-                    ),
-                  ),
-                  child: SelectableText(
-                    'MOST POPULAR',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+        color: plan.isPopular
+            ? theme.colorScheme.primary.withOpacity(0.05)
+            : theme.colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: plan.isPopular
+              ? theme.colorScheme.primary
+              : theme.colorScheme.outline.withOpacity(0.1),
+          width: plan.isPopular ? 2 : 1,
+        ),
+        boxShadow: plan.isPopular
+            ? [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
-                const SizedBox(height: AppDimensions.space4),
+              ]
+            : [
+                BoxShadow(
+                  color: theme.shadowColor.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
               ],
-              Icon(
-                _getTierIcon(userTier),
-                size: 48,
-                color: _getTierColor(userTier),
+      ),
+      child: Column(
+        children: [
+          if (plan.isPopular)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary,
+                borderRadius: BorderRadius.circular(12),
               ),
-              const SizedBox(height: AppDimensions.space3),
-              SelectableText(
-                tier,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              child: Text(
+                'Most Popular',
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: AppDimensions.space2),
-              SelectableText(
-                price,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: _getTierColor(userTier),
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: AppDimensions.space2),
-              SelectableText(
-                description,
-                style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: AppDimensions.space4),
-              SizedBox(
-                width: double.infinity,
-                child: AppButton(
-                  text: _getTierButtonText(userTier),
-                  userTier: userTier,
-                  onPressed: () {},
-                ),
-              ),
-            ],
+            ),
+          if (plan.isPopular) const SizedBox(height: 16),
+
+          Text(
+            plan.name,
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.onSurface,
+            ),
           ),
-        ),
+          const SizedBox(height: 8),
+
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: '\$${plan.price}',
+                  style: theme.textTheme.displaySmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                TextSpan(
+                  text: '/${plan.period}',
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          Text(
+            plan.description,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 32),
+
+          ...plan.features.map(
+            (feature) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.check_circle,
+                    size: 20,
+                    color: theme.colorScheme.primary,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      feature,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: plan.isPopular
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.surface,
+                foregroundColor: plan.isPopular
+                    ? theme.colorScheme.onPrimary
+                    : theme.colorScheme.primary,
+                side: plan.isPopular
+                    ? null
+                    : BorderSide(color: theme.colorScheme.primary),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                'Choose Plan',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
+}
 
-  IconData _getTierIcon(UserTier userTier) {
-    switch (userTier) {
-      case UserTier.anonymous:
-        return Icons.person_outline;
-      case UserTier.free:
-        return Icons.person;
-      case UserTier.paid:
-        return Icons.star;
-    }
-  }
+class _PricingPlan {
+  final String name;
+  final String price;
+  final String period;
+  final String description;
+  final List<String> features;
+  final bool isPopular;
 
-  Color _getTierColor(UserTier userTier) {
-    switch (userTier) {
-      case UserTier.anonymous:
-        return AppColors.anonymousPrimary;
-      case UserTier.free:
-        return AppColors.freePrimary;
-      case UserTier.paid:
-        return AppColors.paidPrimary;
-    }
-  }
-
-  String _getTierButtonText(UserTier userTier) {
-    switch (userTier) {
-      case UserTier.anonymous:
-        return 'Try Now';
-      case UserTier.free:
-        return 'Sign Up Free';
-      case UserTier.paid:
-        return 'Upgrade Now';
-    }
-  }
+  _PricingPlan({
+    required this.name,
+    required this.price,
+    required this.period,
+    required this.description,
+    required this.features,
+    required this.isPopular,
+  });
 }

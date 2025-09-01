@@ -19,7 +19,7 @@ class AuthWrapper extends ConsumerWidget {
           return const UserHomeScreen();
         } else {
           // User is not authenticated, show login screen
-          return const HomeScreen();
+          return const LandingPage();
         }
       },
       loading: () => const Scaffold(

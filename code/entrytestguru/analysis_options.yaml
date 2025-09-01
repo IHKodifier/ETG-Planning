@@ -1,6 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  errors:
+    always_use_package_imports: ignore
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
