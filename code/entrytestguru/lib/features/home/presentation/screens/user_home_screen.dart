@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/utils/responsive_utils.dart';
 import '../../../../widgets/app_button.dart';
+import '../../../../widgets/navigation_rail.dart';
 
 class UserHomeScreen extends ConsumerWidget {
   const UserHomeScreen({super.key});
@@ -53,17 +54,43 @@ class UserHomeScreen extends ConsumerWidget {
   }
 
   Widget _buildUserHomeContent(BuildContext context, User user, WidgetRef ref) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildAppBar(context, user, ref),
-          _buildWelcomeSection(context, user),
-          _buildStatsSection(context, user),
-          _buildQuickActionsSection(context, user),
-          _buildExamInfoSection(context, user),
-        ],
-      ),
-    );
+    final screenSize = MediaQuery.of(context).size;
+    final isTablet = screenSize.width > 576 && screenSize.width <= 768;
+
+    if (isTablet) {
+      // Tablet layout with navigation rail
+      return Scaffold(
+        body: Row(
+          children: [
+            const AppNavigationRail(), // No scroll controller for user home
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  _buildAppBar(context, user, ref),
+                  _buildWelcomeSection(context, user),
+                  _buildStatsSection(context, user),
+                  _buildQuickActionsSection(context, user),
+                  _buildExamInfoSection(context, user),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Desktop and mobile layout with app bar
+      return Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            _buildAppBar(context, user, ref),
+            _buildWelcomeSection(context, user),
+            _buildStatsSection(context, user),
+            _buildQuickActionsSection(context, user),
+            _buildExamInfoSection(context, user),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildAppBar(BuildContext context, User user, WidgetRef ref) {

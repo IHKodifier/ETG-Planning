@@ -1,5 +1,6 @@
 // lib/widgets/hero_section.dart
 import 'package:flutter/material.dart';
+import '../../../auth/presentation/screens/login_screen.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -76,7 +77,12 @@ class HeroSection extends StatelessWidget {
         Row(
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
                 foregroundColor: theme.colorScheme.onPrimary,

@@ -1,6 +1,7 @@
 // lib/screens/landing_page.dart
 import 'package:flutter/material.dart' hide AppBar;
 import '../../../../widgets/app_bar.dart';
+import '../../../../widgets/navigation_rail.dart';
 import '../widgets/hero_section.dart';
 import '../widgets/features_section.dart';
 import '../widgets/benefits_section.dart';
@@ -31,24 +32,58 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: const [
-          AppBar(),
-          SliverToBoxAdapter(child: HeroSection()),
-          SliverToBoxAdapter(child: FeaturesSection()),
-          SliverToBoxAdapter(child: BenefitsSection()),
-          SliverToBoxAdapter(child: PricingSection()),
-          SliverToBoxAdapter(child: TestimonialSection()),
-          SliverToBoxAdapter(child: TeamSection()),
-          SliverToBoxAdapter(child: GallerySection()),
-          SliverToBoxAdapter(child: AnalyticsSection()),
-          SliverToBoxAdapter(child: BlogSection()),
-          SliverToBoxAdapter(child: ContactSection()),
-          SliverToBoxAdapter(child: FooterSection()),
-        ],
-      ),
-    );
+    final screenSize = MediaQuery.of(context).size;
+    final isDesktop = screenSize.width > 768;
+    final isTablet = screenSize.width > 576 && screenSize.width <= 768;
+
+    if (isTablet) {
+      // Tablet layout with navigation rail
+      return Scaffold(
+        body: Row(
+          children: [
+            AppNavigationRail(scrollController: _scrollController),
+            Expanded(
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: const [
+                  SliverToBoxAdapter(child: HeroSection()),
+                  SliverToBoxAdapter(child: FeaturesSection()),
+                  SliverToBoxAdapter(child: BenefitsSection()),
+                  SliverToBoxAdapter(child: PricingSection()),
+                  SliverToBoxAdapter(child: TestimonialSection()),
+                  SliverToBoxAdapter(child: TeamSection()),
+                  SliverToBoxAdapter(child: GallerySection()),
+                  SliverToBoxAdapter(child: AnalyticsSection()),
+                  SliverToBoxAdapter(child: BlogSection()),
+                  SliverToBoxAdapter(child: ContactSection()),
+                  SliverToBoxAdapter(child: FooterSection()),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Desktop and mobile layout with app bar
+      return Scaffold(
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: const [
+            AppBar(),
+            SliverToBoxAdapter(child: HeroSection()),
+            SliverToBoxAdapter(child: FeaturesSection()),
+            SliverToBoxAdapter(child: BenefitsSection()),
+            SliverToBoxAdapter(child: PricingSection()),
+            SliverToBoxAdapter(child: TestimonialSection()),
+            SliverToBoxAdapter(child: TeamSection()),
+            SliverToBoxAdapter(child: GallerySection()),
+            SliverToBoxAdapter(child: AnalyticsSection()),
+            SliverToBoxAdapter(child: BlogSection()),
+            SliverToBoxAdapter(child: ContactSection()),
+            SliverToBoxAdapter(child: FooterSection()),
+          ],
+        ),
+      );
+    }
   }
 }
