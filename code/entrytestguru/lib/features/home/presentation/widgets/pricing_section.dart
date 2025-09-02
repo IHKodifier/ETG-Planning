@@ -38,14 +38,31 @@ class PricingSection extends StatelessWidget {
 
     final plans = [
       _PricingPlan(
-        name: 'Free',
+        name: 'Anonymous',
         price: '0',
         period: 'forever',
-        description: 'Perfect for getting started',
+        description: 'Try our platform without even signing up',
+        features: [
+          '20 questions per day',
+          '2 AI explanations per day',
+          '1 sprint exam',
+          '1 half-length simulated exam',
+          '1 device',
+          'Basic analytics',
+        ],
+        isPopular: false,
+      ),
+      _PricingPlan(
+        name: 'Free',
+        price: '0',
+        period: '2 weeks',
+        description: '2-week trial to test the platform',
         features: [
           '50 questions per day',
-          '3 devices',
-          '5 AI explanations per day',
+          '4 AI explanations per day',
+          '4 sprint exams total',
+          '2 simulated real exams',
+          '3 devices with sync',
           'Basic analytics',
           'Cross-device sync',
         ],
@@ -58,11 +75,14 @@ class PricingSection extends StatelessWidget {
         description: 'For serious exam preparation',
         features: [
           'Unlimited questions',
-          'Unlimited devices',
           'Unlimited AI explanations',
+          'Unlimited sprint exams',
+          'Unlimited simulated exams',
+          'Unlimited devices',
           'Advanced analytics',
           'Social features',
           'Priority support',
+          'Cross-device sync',
         ],
         isPopular: true,
       ),
@@ -155,25 +175,33 @@ class PricingSection extends StatelessWidget {
           ),
           const SizedBox(height: 8),
 
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: '\$${plan.price}',
+          plan.name == 'Anonymous'
+              ? Text(
+                  'Free',
                   style: theme.textTheme.displaySmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
                   ),
-                ),
-                TextSpan(
-                  text: '/${plan.period}',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.6),
+                )
+              : RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: '\$${plan.price}',
+                        style: theme.textTheme.displaySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '/${plan.period}',
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurface.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
           const SizedBox(height: 16),
 
           Text(

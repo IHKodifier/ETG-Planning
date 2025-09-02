@@ -38,6 +38,8 @@ class FeatureComparisonTable extends StatelessWidget {
       'Questions per day',
       'Devices',
       'AI Explanations',
+      'Sprint exams',
+      'Simulated real exams',
       'Analytics',
       'Cross-device sync',
       'Social features',
@@ -52,7 +54,9 @@ class FeatureComparisonTable extends StatelessWidget {
       'Anonymous': [
         '20', // Questions per day
         '1', // Devices
-        '0', // AI Explanations
+        '2/day', // AI Explanations
+        '1', // Sprint exams
+        '1 half-length', // Simulated real exams
         'Basic', // Analytics
         'No', // Cross-device sync
         'No', // Social features
@@ -62,7 +66,9 @@ class FeatureComparisonTable extends StatelessWidget {
       'Free': [
         '50', // Questions per day
         '3', // Devices
-        '5/day', // AI Explanations
+        '4/day', // AI Explanations
+        '4 total', // Sprint exams
+        '2', // Simulated real exams
         'Basic', // Analytics
         'Yes', // Cross-device sync
         'No', // Social features
@@ -73,6 +79,8 @@ class FeatureComparisonTable extends StatelessWidget {
         'Unlimited', // Questions per day
         'Unlimited', // Devices
         'Unlimited', // AI Explanations
+        'Unlimited', // Sprint exams
+        'Unlimited', // Simulated real exams
         'Advanced', // Analytics
         'Yes', // Cross-device sync
         'Yes', // Social features

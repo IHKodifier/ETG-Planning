@@ -5,19 +5,14 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      children: [
-        Icon(Icons.hexagon, color: theme.colorScheme.primary, size: 32),
-        const SizedBox(width: 8),
-        Text(
-          'Essentials',
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onSurface,
-          ),
-        ),
-      ],
+    return SizedBox(
+      height: 80,
+      width: 200,
+      child: Image.asset(
+        'assets/images/ETG-Logo-Light.png',
+        fit: BoxFit.cover,
+        semanticLabel: 'EntryTestGuru Logo',
+      ),
     );
   }
 }

@@ -8,7 +8,7 @@ class AppColors {
     0xFFF5F5F7,
   ); // Light gray background
   static const Color lightPrimary = Color(0xFF3B4A87); // Navy blue primary
-  static const Color lightSecondary = Color(0xFFE85A5A); // Coral secondary
+  static const Color lightSecondary = Color(0xFFe82d37); // Coral secondary
   static const Color lightAccent = Color(0xFFD4A574); // Golden accent
 
   static const Color darkText = Color(0xFFE5E5EA); // Light gray text
