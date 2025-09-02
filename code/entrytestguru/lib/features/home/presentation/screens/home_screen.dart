@@ -40,7 +40,7 @@ class _LandingPageState extends State<LandingPage> {
       return Scaffold(
         backgroundColor: Colors.yellow,
         body: Center(
-          child: Text(
+          child: SelectableText(
             'Screen size not supported. Please open this website on a larger screen.',
             textAlign: TextAlign.center,
             style: TextStyle(

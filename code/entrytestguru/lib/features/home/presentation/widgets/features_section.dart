@@ -18,7 +18,7 @@ class FeaturesSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             'Integrated solutions designed for small business',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class FeaturesSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 24),
-          Text(
+          SelectableText(
             feature.title,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class FeaturesSection extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
-          Text(
+          SelectableText(
             feature.description,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),

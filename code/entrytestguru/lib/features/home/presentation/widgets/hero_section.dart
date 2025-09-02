@@ -50,7 +50,7 @@ class HeroSection extends StatelessWidget {
       children: [
         Wrap(
           children: [
-            Text(
+            SelectableText(
               'Welcome to ',
               style: theme.textTheme.displayMedium?.copyWith(
                 fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class HeroSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        Text(
+        SelectableText(
           'The World\'s Most Powerful Business Intelligence Tool.',
           style: theme.textTheme.headlineSmall?.copyWith(
             color: theme.colorScheme.primary,
@@ -84,7 +84,7 @@ class HeroSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        Text(
+        SelectableText(
           'Transform your business with cutting-edge analytics and insights. Our platform provides comprehensive data visualization and reporting tools to help you make informed decisions.',
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface.withOpacity(0.7),
@@ -112,7 +112,7 @@ class HeroSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
+              child: const SelectableText(
                 'Get Started',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
@@ -131,7 +131,7 @@ class HeroSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
+              child: const SelectableText(
                 'Learn More',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
