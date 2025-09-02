@@ -18,7 +18,7 @@ class PricingSection extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Pricing for every business, at any stage.',
+            'Choose your plan',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.onSurface,
@@ -38,46 +38,33 @@ class PricingSection extends StatelessWidget {
 
     final plans = [
       _PricingPlan(
-        name: 'Starter',
-        price: '25',
-        period: 'month',
-        description: 'Perfect for small teams getting started',
+        name: 'Free',
+        price: '0',
+        period: 'forever',
+        description: 'Perfect for getting started',
         features: [
-          'Up to 5 users',
+          '50 questions per day',
+          '3 devices',
+          '5 AI explanations per day',
           'Basic analytics',
-          '10GB storage',
-          'Email support',
+          'Cross-device sync',
         ],
         isPopular: false,
       ),
       _PricingPlan(
-        name: 'Professional',
-        price: '59',
+        name: 'Pro',
+        price: '9.99',
         period: 'month',
-        description: 'Great for growing businesses',
+        description: 'For serious exam preparation',
         features: [
-          'Up to 25 users',
+          'Unlimited questions',
+          'Unlimited devices',
+          'Unlimited AI explanations',
           'Advanced analytics',
-          '100GB storage',
+          'Social features',
           'Priority support',
-          'Custom integrations',
         ],
         isPopular: true,
-      ),
-      _PricingPlan(
-        name: 'Enterprise',
-        price: '99',
-        period: 'month',
-        description: 'For large organizations',
-        features: [
-          'Unlimited users',
-          'Full analytics suite',
-          'Unlimited storage',
-          '24/7 phone support',
-          'Custom integrations',
-          'Dedicated account manager',
-        ],
-        isPopular: false,
       ),
     ];
 

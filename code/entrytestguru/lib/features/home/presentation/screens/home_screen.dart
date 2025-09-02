@@ -6,6 +6,7 @@ import '../widgets/hero_section.dart';
 import '../widgets/features_section.dart';
 import '../widgets/benefits_section.dart';
 import '../widgets/pricing_section.dart';
+import '../widgets/feature_comparison_table.dart';
 import '../widgets/testimonial_section.dart';
 import '../widgets/team_section.dart';
 import '../widgets/gallery_section.dart';
@@ -50,6 +51,7 @@ class _LandingPageState extends State<LandingPage> {
                   SliverToBoxAdapter(child: FeaturesSection()),
                   SliverToBoxAdapter(child: BenefitsSection()),
                   SliverToBoxAdapter(child: PricingSection()),
+                  SliverToBoxAdapter(child: FeatureComparisonTable()),
                   SliverToBoxAdapter(child: TestimonialSection()),
                   SliverToBoxAdapter(child: TeamSection()),
                   SliverToBoxAdapter(child: GallerySection()),
@@ -74,6 +76,7 @@ class _LandingPageState extends State<LandingPage> {
             SliverToBoxAdapter(child: FeaturesSection()),
             SliverToBoxAdapter(child: BenefitsSection()),
             SliverToBoxAdapter(child: PricingSection()),
+            SliverToBoxAdapter(child: FeatureComparisonTable()),
             SliverToBoxAdapter(child: TestimonialSection()),
             SliverToBoxAdapter(child: TeamSection()),
             SliverToBoxAdapter(child: GallerySection()),
