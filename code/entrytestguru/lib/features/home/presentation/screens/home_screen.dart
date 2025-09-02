@@ -1,5 +1,6 @@
 // lib/screens/landing_page.dart
 import 'package:flutter/material.dart' hide AppBar;
+import '../../../../constants/app_constants.dart';
 import '../../../../widgets/app_bar.dart';
 import '../../../../widgets/navigation_rail.dart';
 import '../widgets/hero_section.dart';
@@ -34,6 +35,24 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    if (screenSize.width < minScreenWidth) {
+      return Scaffold(
+        backgroundColor: Colors.yellow,
+        body: Center(
+          child: Text(
+            'Screen size not supported. Please open this website on a larger screen.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      );
+    }
+
     final isDesktop = screenSize.width > 768;
     final isTablet = screenSize.width > 576 && screenSize.width <= 768;
 

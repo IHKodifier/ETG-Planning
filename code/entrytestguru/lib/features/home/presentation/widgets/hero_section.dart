@@ -1,5 +1,6 @@
 // lib/widgets/hero_section.dart
 import 'package:flutter/material.dart';
+import 'dart:async';
 import '../../../auth/presentation/screens/login_screen.dart';
 
 class HeroSection extends StatelessWidget {
@@ -30,9 +31,9 @@ class HeroSection extends StatelessWidget {
           else
             Column(
               children: [
-                _buildContent(context),
-                const SizedBox(height: 40),
                 _buildIllustration(context),
+                const SizedBox(height: 40),
+                _buildContent(context),
               ],
             ),
         ],
@@ -47,14 +48,31 @@ class HeroSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Welcome To Essentials.',
-          style: theme.textTheme.displayMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onSurface,
-            fontSize: isDesktop ? 48 : 32,
-            height: 1.2,
-          ),
+        Wrap(
+          children: [
+            Text(
+              'Welcome to ',
+              style: theme.textTheme.displayMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: isDesktop ? 48 : 32,
+                height: 1.2,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+            TypewriterText(
+              text: 'EntryTestGuru',
+              style: theme.textTheme.displayMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                fontSize: isDesktop ? 48 : 32,
+                height: 1.2,
+              ),
+              speed: const Duration(milliseconds: 120),
+              pauseDuration: const Duration(seconds: 3),
+              primaryColor: theme.colorScheme.primary,
+              secondaryColor: const Color(0xFFE85A5A), // Coral secondary color
+              baseColor: theme.colorScheme.onSurface,
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Text(
@@ -127,63 +145,210 @@ class HeroSection extends StatelessWidget {
   Widget _buildIllustration(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      height: 300,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
-      ),
-      child: Stack(
-        children: [
-          // Background elements
-          Positioned(
-            top: 40,
-            left: 40,
-            child: Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.tertiary.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(30),
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(48)),
+      color: theme.colorScheme.surface,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
+          borderRadius: BorderRadius.circular(48),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(10, 5),
+              blurRadius: 15,
+              spreadRadius: 2,
+              color: Colors.black.withOpacity(0.3),
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            // Background elements
+            Positioned(
+              top: 40,
+              left: 40,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.tertiary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(30),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 60,
-            right: 60,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.secondary.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(20),
+            Positioned(
+              top: 60,
+              right: 60,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.secondary.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             ),
-          ),
-          // Central illustration placeholder
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.analytics_outlined,
-                  size: 80,
-                  color: theme.colorScheme.primary,
+            // Central illustration placeholder
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(48),
+                child: Image.asset(
+                  'assets/images/hero_image.png',
+                  fit: BoxFit.fill,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'Business Intelligence',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.onSurface,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+}
+
+class TypewriterText extends StatefulWidget {
+  final String text;
+  final TextStyle? style;
+  final Duration speed;
+  final Duration pauseDuration;
+  final Color primaryColor;
+  final Color secondaryColor;
+  final Color baseColor;
+
+  const TypewriterText({
+    super.key,
+    required this.text,
+    this.style,
+    this.speed = const Duration(milliseconds: 120),
+    this.pauseDuration = const Duration(seconds: 2),
+    required this.primaryColor,
+    required this.secondaryColor,
+    required this.baseColor,
+  });
+
+  @override
+  State<TypewriterText> createState() => _TypewriterTextState();
+}
+
+class _TypewriterTextState extends State<TypewriterText> {
+  String _displayText = '';
+  int _currentIndex = 0;
+  Timer? _timer;
+  bool _isComplete = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTyping();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTyping() {
+    _timer?.cancel(); // Cancel any existing timer
+    _timer = Timer.periodic(widget.speed, (timer) {
+      if (_currentIndex < widget.text.length) {
+        if (mounted) {
+          setState(() {
+            _currentIndex++;
+            _displayText = widget.text.substring(0, _currentIndex);
+            _isComplete = false;
+          });
+        }
+      } else {
+        // Text is complete, pause before resetting
+        _timer?.cancel();
+        if (mounted) {
+          setState(() {
+            _isComplete = true;
+          });
+        }
+        // Use a separate timer for the pause to avoid conflicts
+        Timer(widget.pauseDuration, () {
+          if (mounted) {
+            _resetAndRestart();
+          }
+        });
+        return; // Exit the periodic callback
+      }
+    });
+  }
+
+  void _resetAndRestart() {
+    setState(() {
+      _displayText = '';
+      _currentIndex = 0;
+      _isComplete = false;
+    });
+    _startTyping();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(text: TextSpan(children: _buildTextSpans()));
+  }
+
+  List<TextSpan> _buildTextSpans() {
+    List<TextSpan> spans = [];
+    String currentText = _displayText;
+
+    // "Welcome to " - base color
+    if (currentText.startsWith('Welcome to ')) {
+      spans.add(
+        TextSpan(
+          text: 'Welcome to ',
+          style: widget.style?.copyWith(color: widget.baseColor),
+        ),
+      );
+      currentText = currentText.substring('Welcome to '.length);
+    }
+
+    // "EntryTest" - primary color
+    if (currentText.startsWith('EntryTest')) {
+      spans.add(
+        TextSpan(
+          text: 'EntryTest',
+          style: widget.style?.copyWith(color: widget.primaryColor),
+        ),
+      );
+      currentText = currentText.substring('EntryTest'.length);
+    } else if (currentText.contains('EntryTest')) {
+      // Partial "EntryTest"
+      String partial = currentText.substring(
+        0,
+        currentText.indexOf('EntryTest') + 'EntryTest'.length,
+      );
+      spans.add(
+        TextSpan(
+          text: partial,
+          style: widget.style?.copyWith(color: widget.primaryColor),
+        ),
+      );
+      currentText = currentText.substring(partial.length);
+    }
+
+    // "Guru" - secondary color
+    if (currentText.startsWith('Guru')) {
+      spans.add(
+        TextSpan(
+          text: 'Guru',
+          style: widget.style?.copyWith(color: widget.secondaryColor),
+        ),
+      );
+    } else if (currentText.isNotEmpty) {
+      // Partial "Guru" or remaining text
+      spans.add(
+        TextSpan(
+          text: currentText,
+          style: widget.style?.copyWith(color: widget.secondaryColor),
+        ),
+      );
+    }
+
+    return spans;
   }
 }

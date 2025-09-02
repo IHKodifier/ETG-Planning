@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.13.0"
+  auto_scroll:
+    dependency: "direct main"
+    description:
+      name: auto_scroll
+      sha256: "91a65ac64dc211328d679485a4584a3d4e5863e6e3f925b021f8de072a6705ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -475,6 +483,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_resize_observer:
+    dependency: transitive
+    description:
+      name: flutter_resize_observer
+      sha256: "7fea87040d2798832329b75825d3ccba994b7264ac369b7e39ceea2efea031d5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   flutter_riverpod:
     dependency: "direct main"
     description:
