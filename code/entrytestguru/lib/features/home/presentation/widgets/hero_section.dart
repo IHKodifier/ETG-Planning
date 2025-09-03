@@ -76,7 +76,7 @@ class HeroSection extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         SelectableText(
-          'The World\'s Most Powerful Business Intelligence Tool.',
+          'Master Your Entry Tests with Intelligent Analytics and Adaptive Learning.',
           style: theme.textTheme.headlineSmall?.copyWith(
             color: theme.colorScheme.primary,
             fontWeight: FontWeight.w600,
