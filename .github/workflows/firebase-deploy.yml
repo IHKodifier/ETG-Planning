@@ -1,0 +1,43 @@
+name: Deploy to Firebase Hosting
+
+on:
+  push:
+    branches:
+      - master # Or your deployment branch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4 # Ensure this fetches your entire repo
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2.10.0 # Or the latest stable version
+      with:
+        flutter-version: '3.x.x' # Specify the exact version your project uses
+        channel: 'stable'
+
+    - name: Install dependencies and Build Flutter Web
+      run: |
+        # The 'cd' command uses the path relative to the repository root
+        # which is where 'code/entrytestguru' resides after checkout.
+        cd code/entrytestguru
+        flutter pub get
+        flutter build web --release
+
+    # Example for Firebase deployment, assuming you've set up secrets
+    - name: Deploy to Firebase
+      uses: FirebaseExtended/action-hosting-deploy@v0 # Or a later version
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_YOUR_PROJECT_ID }}'
+        projectId: your-firebase-project-id
+        # Specify the path to your 'firebase.json' and 'firestore.indexes.json' etc.
+        # relative to the repository root for the 'entryTestGuru' project.
+        # If your firebase.json is in 'code/', you might need to adjust 'cwd'.
+        # If your 'hosting' section in firebase.json points to 'code/entrytestguru/build/web',
+        # then 'cwd' might need to be 'code/entrytestguru'.
+        # Or if firebase.json is at 'code/', you might need 'entrypoint: code'
+        # Check FirebaseExtended/action-hosting-deploy documentation for options
+        channelId: live # or another channel
