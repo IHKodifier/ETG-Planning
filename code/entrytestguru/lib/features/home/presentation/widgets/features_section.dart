@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class FeaturesSection extends StatelessWidget {
   const FeaturesSection({super.key});
-
+  //pointless comment added to enable pushing to remote
+  //"fix: DR successfully recovered, Firebase config and landing page branch merging catastrophe"
+  //
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
